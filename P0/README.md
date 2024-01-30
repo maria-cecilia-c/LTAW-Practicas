@@ -7,3 +7,5 @@
  Este es mi segundo cambio
  **************************
  Probando uwu
+
+ ![](Ejercicio2-img1.gif)
