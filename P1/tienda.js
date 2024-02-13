@@ -23,8 +23,7 @@ const server = http.createServer((req, res) => {
       <meta name='viewport' content='width=device-width, initial-scale=1'>
   </head>
   <body>
-      <p>Probando</p>
-      <b>Negrita!</b>
+      <h1>Tiendita <\h1>
   </body>
   </html>`);
 
