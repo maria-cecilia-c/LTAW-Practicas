@@ -2,37 +2,57 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-//-- ESpeficicación
 const PUERTO = 9090;
 
-//-- Crear el servidor
 const server = http.createServer((req, res) => {
+  const url = req.url === '/' ? '/tiendita.html' : req.url;
+  const filePath = path.join(__dirname, url);
+  const extension = path.extname(filePath);
+  let contentType = 'text/html';
 
-   const filePath =  path.join("/home/alumnos/mccampos/LTAW/LTAW-Practicas/P1", "tiendita.html");
-  //-- Indicamos que se ha recibido una petición
-  console.log("Petición recibida!");
+  switch (extension) {
+    case '.html':
+      contentType = 'text/html';
+      break;
+    case '.css':
+      contentType = 'text/css';
+      break;
+    case '.js':
+      contentType = 'text/javascript';
+      break;
+    case '.jpg':
+    case '.jpeg':
+      contentType = 'image/jpeg';
+      break;
+    case '.png':
+      contentType = 'image/png';
+      break;
+    case '.gif':
+      contentType = 'image/gif';
+      break;
+  }
 
-  //-- Cabecera que indica el tipo de datos del
-  //-- cuerpo de la respuesta: Texto plano
-  //res.setHeader('Content-Type', 'text/html');
-
-  //-- Leer el archivo HTML y enviarlo como respuesta
-  //hacer el path
-
-  fs.readFile(filePath,(err, data) => {
+  fs.readFile(filePath, (err, content) => {
     if (err) {
-      console.error(err);
-      res.writeHead(500);
-      res.end('Error interno del servidor');
-      
-    } else{
-        res.writeHead(200, {'Content-Type':'text/html'});
-        res.end(data);
+      if (err.code == 'ENOENT') {
+        // Página no encontrada
+        fs.readFile(path.join(__dirname, '404.html'), (err, content) => {
+          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.end(content, 'utf8');
+        });
+      } else {
+        // Otro error del servidor
+        res.writeHead(500);
+        res.end('Error interno del servidor: ' + err.code);
+      }
+    } else {
+      // Archivo encontrado, servir contenido
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content, 'utf8');
     }
   });
 });
 
-//-- Activar el servidor: ¡Que empiece la fiesta!
-server.listen(PUERTO);
-
-console.log("Happy server activado!. Escuchando en puerto: " + PUERTO);
+server.listen(PUERTO, () => {
+  console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
+});
