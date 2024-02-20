@@ -1,7 +1,7 @@
 /*Cards*/
 /*PONER BACKGRAOUN COLOR*/
 body{
-    background-color: rgb(255, 203, 251);
+    background-color: rgb(247, 247, 247);
 }
 .container-card{
     width: 100%;
@@ -21,7 +21,7 @@ body{
 }
 .card{
     margin: 20px;
-    background:#8fff8b;
+    background:#8fff8b8f;
     box-shadow: 0px 1px 10px rgba(45, 83, 28, 0.582);
     cursor: default;
 }

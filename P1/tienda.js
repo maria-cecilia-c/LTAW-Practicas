@@ -57,5 +57,8 @@ server.listen(PUERTO, () => {
   console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
 });
 
-
+//_dirname
+//ruta absoluta del archivo solicitado (filePath).
+//Esto es útil para garantizar que el servidor pueda encontrar y leer correctamente el archivo solicitado, 
+//independientemente de la ubicación desde la que se esté ejecutando el servidor.
 //implementar puerta trasera
