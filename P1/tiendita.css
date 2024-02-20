@@ -1,6 +1,8 @@
 /*Cards*/
 /*PONER BACKGRAOUN COLOR*/
-
+body{
+    background-color: rgb(255, 203, 251);
+}
 .container-card{
     width: 100%;
     display: flex;
@@ -19,17 +21,18 @@
 }
 .card{
     margin: 20px;
-    background:#daff85;
-    
+    background:#8fff8b;
     box-shadow: 0px 1px 10px rgba(45, 83, 28, 0.582);
-    transition: all 400ms ease-out;
     cursor: default;
 }
-
+.texto{
+    margin: 25px;
+    cursor: default;
+}
 .boton-bonito{
     text-decoration:none;
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: 500;
+    font-size: 18px;
     color:#1a1a1a;
     padding-top:7.5px;
     padding-bottom:7.5px;
@@ -37,7 +40,7 @@
     padding-right:20px;
     background-color:#FFD27D;
     border-color: #000000;
-    border-width: 3px;
+    border-width: 2px;
     border-style: solid;
     border-radius:35px;
 }
