@@ -6,6 +6,7 @@ body{
     display: flex;
     max-width: 1100px;
     margin: auto;
+    justify-content: center; 
 }
 
 .title-cards{
@@ -18,8 +19,9 @@ body{
     color: black;
 }
 .card{
-  text-align: center;
+    text-align: center;
     border-radius:25px;
+    margin: 20px auto; 
     margin: 20px;
     background:#8fff8b8f;
     box-shadow: 0px 1px 10px rgba(45, 83, 28, 0.582);
