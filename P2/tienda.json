@@ -1,0 +1,29 @@
+{
+
+    "nombres":[
+        {
+          "nombre": "Jeon Jungkook",
+          "usuario": "JK",
+          "contraseña": "1234"
+        },
+        {
+            "nombre": "root",
+            "usuario": "pepe",
+            "contraseña": "5678"
+          }
+    ],
+    
+    "productos":[
+        {
+          "nombre": "Jeon Jungkook",
+          "usuario": "JK",
+          "contraseña": "1234"
+        },
+        {
+            "nombre": "root",
+            "usuario": "pepe",
+            "contraseña": "5678"
+          }
+    ]
+}
+

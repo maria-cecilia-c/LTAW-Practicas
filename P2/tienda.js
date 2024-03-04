@@ -1,8 +1,19 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-
 const PUERTO = 9090;
+
+
+//-- Nombre del fichero JSON a leer
+const FICHERO_JSON = "tienda.json"
+//-- Leer el fichero JSON
+const  tienda_json = fs.readFileSync(FICHERO_JSON);
+//-- Crear la estructura tienda a partir del contenido del fichero
+const tienda = JSON.parse(tienda_json);
+//-- Mostrar informacion sobre la tienda
+console.log("Productos en la tienda: " + tienda.length);
+
+
 
 const server = http.createServer((req, res) => {
   const url = req.url === '/' ? '/tienda.html' : req.url;
