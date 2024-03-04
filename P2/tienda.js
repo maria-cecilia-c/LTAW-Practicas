@@ -4,42 +4,35 @@ const path = require('path');
 const PUERTO = 9090;
 
 
-//-- Nombre del fichero JSON a leer
-const FICHERO_JSON = "tienda.json"
-//-- Leer el fichero JSON
-const  tienda_json = fs.readFileSync(FICHERO_JSON);
-//-- Crear la estructura tienda a partir del contenido del fichero
-const tienda = JSON.parse(tienda_json);
-//-- Mostrar informacion sobre la tienda
-console.log("Productos en la tienda: " + tienda.length);
-
-
 
 const server = http.createServer((req, res) => {
   const url = req.url === '/' ? '/tienda.html' : req.url;
   const filePath = path.join(__dirname, url);
   const extension = path.extname(filePath);
   let contentType = 'text/html';
-
+  
   switch (extension) {
     case '.html':
       contentType = 'text/html';
       break;
-    case '.css':
-      contentType = 'text/css';
+      case '.css':
+        contentType = 'text/css';
       break;
-    case '.js':
+      case '.js':
       contentType = 'text/javascript';
       break;
-    case '.jpg':
-    case '.jpeg':
-      contentType = 'image/jpeg';
+    case '.json':
+      contentType = 'application/json'; // Ajusta el tipo de contenido para el archivo JSON
       break;
-    case '.png':
-      contentType = 'image/png';
-      break;
-    case '.gif':
-      contentType = 'image/gif';
+      case '.jpg':
+        case '.jpeg':
+          contentType = 'image/jpeg';
+          break;
+          case '.png':
+            contentType = 'image/png';
+            break;
+            case '.gif':
+              contentType = 'image/gif';
       break;
   }
 
@@ -63,6 +56,16 @@ const server = http.createServer((req, res) => {
     }
   });
 });
+
+
+//-- Nombre del fichero JSON a leer
+const FICHERO_JSON = "tienda.json"
+//-- Leer el fichero JSON
+const  tienda_json = fs.readFileSync(FICHERO_JSON);
+//-- Crear la estructura tienda a partir del contenido del fichero
+const tienda = JSON.parse(tienda_json);
+//-- Mostrar informacion sobre la tienda
+console.log("Productos en la tienda: " + tienda.length);
 
 server.listen(PUERTO, () => {
   console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
