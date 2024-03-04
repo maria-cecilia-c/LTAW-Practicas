@@ -3,6 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const PUERTO = 9090;
 
+//-- Leer el fichero JSON
+  tienda_json = fs.readFileSync('/home/alumnos/mccampos/LTAW/LTAW-Practicas/P2/tienda.json', 'utf-8');
+//-- Crear la estructura tienda a partir del contenido del fichero
+tienda = JSON.parse(tienda_json);
+//-- Mostrar informacion sobre la tienda
+console.log("Productos en la tienda: " + tienda.productos.length);
 
 
 const server = http.createServer((req, res) => {
@@ -58,14 +64,7 @@ const server = http.createServer((req, res) => {
 });
 
 
-//-- Nombre del fichero JSON a leer
-const FICHERO_JSON = "tienda.json"
-//-- Leer el fichero JSON
-const  tienda_json = fs.readFileSync(FICHERO_JSON);
-//-- Crear la estructura tienda a partir del contenido del fichero
-const tienda = JSON.parse(tienda_json);
-//-- Mostrar informacion sobre la tienda
-console.log("Productos en la tienda: " + tienda.length);
+
 
 server.listen(PUERTO, () => {
   console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
