@@ -1,6 +1,8 @@
 body{
     background-color: rgb(253, 241, 252);
 }
+
+
 .container-card{
     width: 100%;
     display: flex;
@@ -27,6 +29,7 @@ body{
     box-shadow: 0px 1px 10px rgba(45, 83, 28, 0.582);
     cursor: default;
 }
+
 .texto{
     margin: 25px;
     cursor: default;

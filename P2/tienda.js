@@ -1,16 +1,18 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const PUERTO = 9090;
 
+
 //-- Leer el fichero JSON
-  tienda_json = fs.readFileSync('/home/alumnos/mccampos/LTAW/LTAW-Practicas/P2/tienda.json', 'utf-8');
+tienda_json = fs.readFileSync('/home/alumnos/mccampos/LTAW/LTAW-Practicas/P2/tienda.json', 'utf-8');
 //-- Crear la estructura tienda a partir del contenido del fichero
 tienda = JSON.parse(tienda_json);
 //-- Mostrar informacion sobre la tienda
 console.log("Productos en la tienda: " + tienda.productos.length);
 
-
+//----------------------
 const server = http.createServer((req, res) => {
   const url = req.url === '/' ? '/tienda.html' : req.url;
   const filePath = path.join(__dirname, url);
@@ -62,9 +64,6 @@ const server = http.createServer((req, res) => {
     }
   });
 });
-
-
-
 
 server.listen(PUERTO, () => {
   console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
