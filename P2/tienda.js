@@ -29,18 +29,18 @@ const server = http.createServer((req, res) => {
       case '.js':
       contentType = 'text/javascript';
       break;
-    case '.json':
+      case '.json':
       contentType = 'application/json'; // Ajusta el tipo de contenido para el archivo JSON
       break;
       case '.jpg':
-        case '.jpeg':
-          contentType = 'image/jpeg';
-          break;
-          case '.png':
-            contentType = 'image/png';
-            break;
-            case '.gif':
-              contentType = 'image/gif';
+      case '.jpeg':
+      contentType = 'image/jpeg';
+      break;
+      case '.png':
+      contentType = 'image/png';
+      break;
+      case '.gif':
+      contentType = 'image/gif';
       break;
   }
 
@@ -64,6 +64,14 @@ const server = http.createServer((req, res) => {
     }
   });
 });
+
+
+// Define una ruta para obtener el archivo JSON
+//app.get('/tienda', (req, res) => {
+//  const tienda_json = fs.readFileSync('/home/alumnos/mccampos/LTAW/LTAW-Practicas/P2/tienda.json', 'utf-8');
+//  const tienda = JSON.parse(tienda_json);
+//  res.json(tienda);
+//});
 
 server.listen(PUERTO, () => {
   console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
