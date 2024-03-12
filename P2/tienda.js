@@ -4,7 +4,7 @@ const path = require('path');
 const PUERTO = 9090;
 
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
-const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8');
+const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
 
 const server = http.createServer((req, res) => {
     const url = req.url === '/' ? '/tienda.html' : req.url;
@@ -38,18 +38,18 @@ const server = http.createServer((req, res) => {
     }
 
     if (req.method === 'POST' && req.url === '/procesar') {
-        let body = '';
 
-        // Manejar la recepción de datos
-        req.on('data', (data) => {
-            body += data;
-            console.log('Datos del formulario:', data);
-        });
+          //-- Si hay datos en el cuerpo, se imprimen
+        req.on('data', (cuerpo) => {       
+          //-- Los datos del cuerpo son caracteres
+          req.setEncoding('utf8');
+          console.log(`Cuerpo (${cuerpo.length} bytes)`)
+          console.log(` ${cuerpo}`);
+        });        
+
 
         // Manejar el final de la solicitud
         req.on('end', () => {
-            console.log('Datos del formulario:', body);
-
             // Generar la respuesta
             res.setHeader('Content-Type', 'text/html');
             res.write(RESPUESTA);
