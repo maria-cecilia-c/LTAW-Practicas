@@ -42,6 +42,8 @@ const server = http.createServer((req, res) => {
           //-- Si hay datos en el cuerpo, se imprimen
         req.on('data', (cuerpo) => {       
           //-- Los datos del cuerpo son caracteres
+          //TODO: Ahora que me lee usuario y contraseña, ¿que hago?
+          //TODO: veo si es igual al JSON??
           req.setEncoding('utf8');
           console.log(`Cuerpo (${cuerpo.length} bytes)`)
           console.log(` ${cuerpo}`);
@@ -79,3 +81,9 @@ const server = http.createServer((req, res) => {
 server.listen(PUERTO, () => {
     console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
 });
+
+
+
+//post me entrega los valores en el cuerpo
+//en el cuerpo puedes meter más info, por eso se usa
+//en el get no.
