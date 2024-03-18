@@ -1,15 +1,18 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+//si hay definida cookie hacer lo que toque, si no, pues enseñar un _toastERROR que diga registrate
 const PUERTO = 9090;
-
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
 const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
+
+cargarTienda("tienda.json")
 
 const server = http.createServer((req, res) => {
     const url = req.url === '/' ? '/tienda.html' : req.url;
     const filePath = path.join(__dirname, url);
     const extension = path.extname(filePath);
+    
     let contentType = 'text/html';
 
     switch (extension) {
@@ -34,7 +37,7 @@ const server = http.createServer((req, res) => {
             break;
         case '.gif':
             contentType = 'image/gif';
-            break;
+        break;
     }
 
     if (req.method === 'POST' && req.url === '/procesar') {
@@ -45,7 +48,6 @@ const server = http.createServer((req, res) => {
           //TODO: Ahora que me lee usuario y contraseña, ¿que hago?
           //TODO: veo si es igual al JSON??
           req.setEncoding('utf8');
-          console.log(`Cuerpo (${cuerpo.length} bytes)`)
           console.log(` ${cuerpo}`);
         });        
 
@@ -73,17 +75,37 @@ const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': contentType });
                 res.end(content, 'utf8');
+               
             }
         });
     }
+    
+   
+    //------------
 });
+
+
+
 
 server.listen(PUERTO, () => {
     console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
 });
 
 
-
-//post me entrega los valores en el cuerpo
-//en el cuerpo puedes meter más info, por eso se usa
-//en el get no.
+//------------Lectura JSON
+//JSON.stringify(variable)inversa de variable a json
+function cargarTienda(nombreArchivo) {
+    try {
+        const tienda_json = fs.readFileSync(nombreArchivo);
+        const tienda = JSON.parse(tienda_json);
+        console.log("Productos en la tienda: " + tienda.productos.length);
+        tienda.productos.forEach((productos, index)=>{
+            console.log("Producto " + (index + 1) + ": " + productos.nombre);
+          });
+        return tienda;
+    } catch (error) {
+        console.error('Error al cargar el archivo JSON:', error);
+        return null;
+    }
+}
+//----------------------------------------
