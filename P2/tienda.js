@@ -40,6 +40,8 @@ const server = http.createServer((req, res) => {
         break;
     }
 
+    
+
     if (req.method === 'POST' && req.url === '/procesar') {
 
           //-- Si hay datos en el cuerpo, se imprimen
@@ -79,9 +81,7 @@ const server = http.createServer((req, res) => {
             }
         });
     }
-    
    
-    //------------
 });
 
 
@@ -95,13 +95,18 @@ server.listen(PUERTO, () => {
 //------------Lectura JSON
 //JSON.stringify(variable)inversa de variable a json
 function cargarTienda(nombreArchivo) {
+    let content = RESPUESTA;
     try {
         const tienda_json = fs.readFileSync(nombreArchivo);
         const tienda = JSON.parse(tienda_json);
         console.log("Productos en la tienda: " + tienda.productos.length);
         tienda.productos.forEach((productos, index)=>{
             console.log("Producto " + (index + 1) + ": " + productos.nombre);
+           
           });
+          let nombre = tienda.productos[0].nombre;
+          console.log(nombre)
+          content = content.replace("NOMBRE", nombre);
         return tienda;
     } catch (error) {
         console.error('Error al cargar el archivo JSON:', error);
