@@ -15,10 +15,15 @@ const server = http.Server(app);
 //-- Crear el servidor de websockets, asociado al servidor http
 const io = socket(server);
 
-//-------- PUNTOS DE ENTRADA DE LA APLICACION WEB
+
+
+//-------- PUNTOS DE ENTRADA DE LA APLICACION WEB-----------------
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
-  res.send('Bienvenido a mi aplicación Web!!!' + '<p><a href="/chat.html">Test</a></p>');
+  // Obtener la URL actual
+  const url = req.url;
+  console.log('URL actual:', url);
+  res.send('Bienvenido a mi aplicación Web!!!' + '<p><a href="/chat.html">Test</a></p>'+ '<button><a href="/login.html">lOGIN</a></button>');
 });
 
 //-- Esto es necesario para que el servidor le envíe al cliente la
@@ -34,6 +39,14 @@ io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
   UsuariosConectados = UsuariosConectados + 1;
+  // Obtener la URL actual del socket
+  const url = socket.handshake.headers.referer;
+  console.log('URL actual:', url);
+
+  // Parsear la URL para obtener el valor del parámetro username
+  const urlParams = new URLSearchParams(new URL(url).search);
+  const username = urlParams.get('username');
+  console.log('Nombre de usuario:', username);
 
   //-- Evento de desconexión
   socket.on('disconnect', function(){
@@ -44,7 +57,7 @@ io.on('connect', (socket) => {
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
     console.log("Mensaje Recibido!: " + msg.blue);
-    comandosEspeciales(msg,socket)
+    comandosEspeciales(msg,socket,UsuariosConectados, username)
   });
 
 });
@@ -60,7 +73,7 @@ console.log("Escuchando en puerto: " + PUERTO);
 
 //-----------------FUNCIONES------------------------
 
-function comandosEspeciales(comand, socket, UsuariosCOnectados){ 
+function comandosEspeciales(comand, socket, UsuariosConectados, username){ 
 
   switch(comand){
 
@@ -76,25 +89,27 @@ function comandosEspeciales(comand, socket, UsuariosCOnectados){
           socket.emit("message" , ("Recuerda: Vida antes que muerte, fuerza antes que debeilidad y viaje antes que destino"));
           return;
 
-      default:
-        io.send(comand);
-        return;
-
       case "/date":
           socket.emit("message" , (getDate()))
           break;
-  }
 
-  function getDate(){
-    const fechaActual = new Date();
-    const dia = fechaActual.getDate().toString().padStart(2, '0');
-    const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-    const anio = fechaActual.getFullYear();
-    const hora = fechaActual.getHours().toString().padStart(2, '0');
-    const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
-    const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
-
-    const fechaHora = `Es el dia: ${dia}/${mes}/${anio} , a las ${hora}:${minutos} y ${segundos} segundos`;
-    return fechaHora
+      default:
+        io.send(username + ': ' + comand);
+        return;
 }
 }
+
+
+function getDate(){
+  const fechaActual = new Date();
+  const dia = fechaActual.getDate().toString().padStart(2, '0');
+  const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+  const anio = fechaActual.getFullYear();
+  const hora = fechaActual.getHours().toString().padStart(2, '0');
+  const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+  const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
+
+  const fechaHora = `Es el dia: ${dia}/${mes}/${anio} , a las ${hora}:${minutos} y ${segundos} segundos`;
+  return fechaHora
+}
+
