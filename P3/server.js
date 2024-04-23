@@ -20,9 +20,6 @@ const io = socket(server);
 //-------- PUNTOS DE ENTRADA DE LA APLICACION WEB-----------------
 //-- Definir el punto de entrada principal de mi aplicación web
 app.get('/', (req, res) => {
-  // Obtener la URL actual
-  const url = req.url;
-  console.log('URL actual:', url);
   res.send('Bienvenido a mi aplicación Web!!!' + '<p><a href="/chat.html">Test</a></p>'+ '<button><a href="/login.html">lOGIN</a></button>');
 });
 
@@ -56,7 +53,7 @@ io.on('connect', (socket) => {
 
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
-    console.log("Mensaje Recibido!: " + msg.blue);
+    console.log("Mensaje Recibido!"+ username +': ' + msg.blue);
     comandosEspeciales(msg,socket,UsuariosConectados, username)
   });
 
