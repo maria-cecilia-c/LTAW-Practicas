@@ -6,7 +6,7 @@ const msg_entry = document.getElementById("msg_entry");
 const socket = io();
 
 
-socket.on("message", (msg)=>{
+socket.on("message", (msg)=>{ // msg = nick:mensaje
   display.innerHTML += '<p style="color:black">' + msg + '</p>';
 });
 

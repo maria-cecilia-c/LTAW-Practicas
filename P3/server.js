@@ -35,6 +35,7 @@ app.use(express.static('public'));
 io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
+  io.send('Nueva conexión');
   UsuariosConectados = UsuariosConectados + 1;
   // Obtener la URL actual del socket
   const url = socket.handshake.headers.referer;
@@ -94,6 +95,7 @@ function comandosEspeciales(comand, socket, UsuariosConectados, username, color)
           break;
 
       default:
+        
         io.send('<span style="color:' + color + '">' + username + '</span>: ' + comand);
 
         return;
