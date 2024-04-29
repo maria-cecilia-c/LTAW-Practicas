@@ -4,7 +4,7 @@ const http = require('http');
 const express = require('express');
 const colors = require('colors');
 
-const PUERTO = 9091;
+const PUERTO = 9093;
 let UsuariosConectados = 0;
 //-- Crear una nueva aplciacion web
 const app = express();
@@ -19,9 +19,9 @@ const io = socket(server);
 
 //-------- PUNTOS DE ENTRADA DE LA APLICACION WEB-----------------
 //-- Definir el punto de entrada principal de mi aplicación web
-app.get('/', (req, res) => {
-  res.send('Bienvenido a mi aplicación Web!!!' + '<p><a href="/chat.html">Test</a></p>'+ '<button><a href="/login.html">lOGIN</a></button>');
-});
+// app.get('/', (req, res) => {
+//   res.send('Bienvenido a mi aplicación Web!!!' + '<button><a href="/index.html">lOGIN</a></button>');
+// });
 
 //-- Esto es necesario para que el servidor le envíe al cliente la
 //-- biblioteca socket.io para el cliente
@@ -45,6 +45,11 @@ io.on('connect', (socket) => {
   const username = urlParams.get('username');
   console.log('Nombre de usuario:', username);
 
+  //aqui teno el color seleccionado por el usuario
+  const color = urlParams.get('color');
+  console.log('Color seleccionado:', color);
+
+
   //-- Evento de desconexión
   socket.on('disconnect', function(){
     UsuariosConectados = UsuariosConectados - 1;
@@ -53,8 +58,9 @@ io.on('connect', (socket) => {
 
   //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
   socket.on("message", (msg)=> {
-    console.log("Mensaje Recibido!"+ username +': ' + msg.blue);
-    comandosEspeciales(msg,socket,UsuariosConectados, username)
+   //el msg es solo mensaje, en la terminal
+    console.log("Mensaje Recibido!"+ username.green +': ' + msg.blue);
+    comandosEspeciales(msg,socket,UsuariosConectados, username, color)
   });
 
 });
@@ -65,12 +71,9 @@ server.listen(PUERTO);
 console.log("Escuchando en puerto: " + PUERTO);
 
 
-
-
-
 //-----------------FUNCIONES------------------------
 
-function comandosEspeciales(comand, socket, UsuariosConectados, username){ 
+function comandosEspeciales(comand, socket, UsuariosConectados, username, color){ 
 
   switch(comand){
 
@@ -91,7 +94,8 @@ function comandosEspeciales(comand, socket, UsuariosConectados, username){
           break;
 
       default:
-        io.send(username + ': ' + comand);
+        io.send('<span style="color:' + color + '">' + username + '</span>: ' + comand);
+
         return;
 }
 }
