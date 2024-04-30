@@ -11,7 +11,7 @@ const RESPUESTA_LOGIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER
 DATAJSON =  fs.readFileSync('tienda.json', 'utf-8')
 DATAJSON = JSON.parse(DATAJSON)
 console.log(DATAJSON)
-cargarTienda("tienda.json")
+cargarTienda(DATAJSON)
 
 
 //-------
@@ -50,12 +50,6 @@ const server = http.createServer((req, res) => {
     }
 
    
-   
-    //if (req.method === 'POST') {
-    //    
-    //}
-
-
     if (req.method === 'POST') {
 
         if (url == '/procesar'){
@@ -117,6 +111,26 @@ const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': contentType });
                 res.end(content, 'utf8');
+                // Lee el archivo HTML
+                fs.readFile('gorrito1.html', 'utf8', (err, data) => {
+                    if (err) {
+                        return console.error('Error al leer el archivo HTML:', err);
+                    }               
+
+                    // Nombre que deseas insertar
+                     nombreProducto = cargarTienda(DATAJSON);               
+
+                    // Realiza el reemplazo
+                    const nuevoContenido = data.replace("<!--nombre-->", nombreProducto);               
+
+                    // Escribe el archivo HTML con el contenido actualizado
+                    fs.writeFile('gorrito1.html', nuevoContenido, 'utf8', (err) => {
+                        if (err) {
+                            return console.error('Error al escribir el archivo HTML:', err);
+                        }
+                        console.log('El reemplazo se ha realizado con éxito.');
+                    });                 
+                }); 
                
             }
         });
@@ -134,19 +148,15 @@ server.listen(PUERTO, () => {
 
 //------------Lectura JSON
 //JSON.stringify(variable)inversa de variable a json
-function cargarTienda(nombreArchivo) {
-    let content = RESPUESTA;
+function cargarTienda(DATAJSON) {
     try {
-        const tienda_json = fs.readFileSync(nombreArchivo);
-        const tienda = JSON.parse(tienda_json);
-        console.log("Productos en la tienda: " + tienda.productos.length);
+        console.log("Productos en la tienda: " + DATAJSON.productos.length);
         //tienda.productos.forEach((productos, index)=>{
         //    console.log("Producto " + (index + 1) + ": " + productos.nombre);
         //});
-          let nombre = tienda.productos[0].nombre;
-          console.log(nombre)
-          content = content.replace("NOMBRE", nombre);
-        return tienda;
+          let nombreProducto = DATAJSON.productos[0].nombre;
+          console.log(nombreProducto)
+        return nombreProducto;
     } catch (error) {
         console.error('Error al cargar el archivo JSON:', error);
         return null;

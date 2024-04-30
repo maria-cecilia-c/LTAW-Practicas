@@ -17,48 +17,26 @@
     
     "productos":[
         {
-            "nombre": "hamster 1",
+            "nombre": "Gorrito Flor",
             "descripción": "JK",
             "precio": 1234,
             "stock": 1234
         },
-        {
-            "nombre": "hamster 2",
-            "descripción": "JK",
-            "precio": 10,
-            "stock": 20
-        },
+      
         {
             "nombre": "gato 1",
             "descripción": "¡Haz que tu gato se sienta como la realeza que es con nuestro exclusivo Gorro de Crochet en forma de Corona!",
             "precio": 15,
             "stock": 1234
           },
-        {
-            "nombre": "gato 2",
-            "descripción": "JK",
-            "precio": 20,
-            "stock": 1234
-        },
-        {
-            "nombre": "gato 3",
-            "descripción": "JK",
-            "precio": 13,
-            "stock": 1234
-        },
+       
         {
             "nombre": "perro 1",
             "descripción": "JK",
             "precio": 1234,
             "stock": 1234
-        },
-        {
-            "nombre": "perro 2",
-            "descripción": "JK",
-            "precio": 10,
-            "stock": 1234
         }
-
+        
     ],
     "pedidos":[
         {
