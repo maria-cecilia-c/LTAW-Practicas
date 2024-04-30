@@ -1,4 +1,5 @@
 const electron = require('electron');
+const ip = require('ip');
 
 console.log("Hola desde el proceso de la web...");
 
@@ -8,6 +9,7 @@ const display = document.getElementById("display");
 const info1 = document.getElementById("info1");
 const info2 = document.getElementById("info2");
 const info3 = document.getElementById("info3");
+const info4 = document.getElementById("info4");
 const print = document.getElementById("print");
 
 //-- Acceder a la API de node para obtener la info
@@ -16,7 +18,8 @@ const print = document.getElementById("print");
 info1.textContent = process.version;
 info2.textContent = process.versions.chrome;
 info3.textContent = process.versions.electron;
-
+const url = "http://" + ip.address() + ":" + 2020;
+info4.textContent = url;
 
 btn_test.onclick = () => {
     display.innerHTML += "TEST! ";

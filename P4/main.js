@@ -12,6 +12,8 @@ let win = null;
 electron.app.on('ready', () => {
     console.log("Evento Ready!");
 
+   
+
     //-- Crear la ventana principal de nuestra aplicación
     win = new electron.BrowserWindow({
         width: 600,   //-- Anchura 
