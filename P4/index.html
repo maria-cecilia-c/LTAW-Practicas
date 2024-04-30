@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Permitir sólo scripts y ficheros de la máquina local -->
+    <!-- Con esto se elimina el aviso de seguridad: Insecure Content-Security-Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';" />
+
+    <!-- Hoja de estilo de la interfaz -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Cargar el proceso asociado a esta página -->
+    <script src="index.js" defer></script>
+
+    <title>Mi APP (version 10)</title>
+</head>
+<body>
+    <h1>HOME CHAT (SERVER)</h1>
+    <hr>
+    <div class="container">
+        <div class="info">
+            <h2>Información:</h2>
+            <p>Version Node: <span id="info1" class="blue"></span></p>
+            <p>Version Chrome: <span id="info2" class="blue"></span></p>
+            <p>Version Electron: <span id="info3" class="blue"></span></p>
+
+            <h2>Usuarios conectados:</h2>
+
+            <h2>Dirección IP:</h2>
+        </div>
+    
+        <div class="mensajes">
+            <h2>Pruebas:</h2>
+            <p>   <input type="button" value="Enviar mensaje de prueba" id="btn_test"> </p>
+           <p>Display:</p>
+            <p id="display"></p>
+        </div>
+    </div>
+</body>
+</html>

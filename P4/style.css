@@ -1,0 +1,40 @@
+
+h1 {
+  width: 93%;
+  padding: 20px;
+  background-color: lightgreen;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+}
+.info {
+  width: 93%;
+  padding: 20px;
+  background-color: lightgreen;
+  border-radius: 10px;
+  text-align: left;
+}
+.mensajes {
+  width: 93%;
+  padding: 20px;
+  background-color: rgb(198, 255, 198);
+  border-radius: 10px;
+  text-align: right;
+}
+
+
+.blue {
+  color: blue;
+}
+
+.red {
+color: red;
+}
+
+#display {
+    border: 2px solid lightblue;
+    padding: 10px;
+}
