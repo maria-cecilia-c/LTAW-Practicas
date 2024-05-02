@@ -109,67 +109,12 @@ const server = http.createServer((req, res) => {
                 }
             } else {
                 if (url === '/gorrito1.html') {
-                     // Lee el archivo HTML
-                fs.readFile('gorrito1.html', 'utf8', (err, data) => {
-                    if (err) {
-                        return console.error('Error al leer el archivo HTML:', err);
-                    }               
-            
-                    // Carga la tienda desde el JSON
-                    const tienda = cargarTienda(DATAJSON);   //nombre, descripcion
-                          
-                    if (tienda) {
-                        // Obtiene el primer nombre y descripción
-                        const primerNombre = tienda[0].nombre;
-                        const primerDescripcion = tienda[0].descripcion;
-
-                        // Realiza el reemplazo del nombre del producto en el HTML
-                        let nuevoContenido = data.replace("Nombre_Gorro", primerNombre);  
-                        
-                        nuevoContenido = nuevoContenido.replace("HTML_descrip", primerDescripcion);
-                        
-                        fs.writeFile('gorrito1.html', nuevoContenido, 'utf8', (err) => {
-                            if (err) {
-                                return console.error('Error al escribir el archivo HTML:', err);
-                            }
-                            console.log('El reemplazo se ha realizado con éxito.');
-                        });
-                    } else {
-                        console.error('No se pudo cargar la tienda desde el JSON.');
-                    }               
-                }); 
+                    procesarArchivoHTML('gorrito1.html', 0, DATAJSON);
+                } else if (url === '/gorrito2.html') {
+                    procesarArchivoHTML('gorrito2.html', 1, DATAJSON);
+                } else if (url === '/gorrito3.html') {
+                    procesarArchivoHTML('gorrito3.html', 2, DATAJSON);
                 }
-                if (url === '/gorrito2.html') {
-                    // Lee el archivo HTML
-               fs.readFile('gorrito2.html', 'utf8', (err, data) => {
-                   if (err) {
-                       return console.error('Error al leer el archivo HTML:', err);
-                   }               
-           
-                   // Carga la tienda desde el JSON
-                   const tienda = cargarTienda(DATAJSON);   //nombre, descripcion
-                         
-                   if (tienda) {
-                       // Obtiene el primer nombre y descripción
-                       const segundoNombre = tienda[1].nombre;
-                       const segundaDescripcion = tienda[1].descripcion;
-
-                       // Realiza el reemplazo del nombre del producto en el HTML
-                       let nuevoContenido = data.replace("Nombre_Gorro2", segundoNombre);  
-                       
-                       nuevoContenido = nuevoContenido.replace("HTML_descrip2", segundaDescripcion);
-                       
-                       fs.writeFile('gorrito2.html', nuevoContenido, 'utf8', (err) => {
-                           if (err) {
-                               return console.error('Error al escribir el archivo HTML:', err);
-                           }
-                           console.log('El reemplazo se ha realizado con éxito.');
-                       });
-                   } else {
-                       console.error('No se pudo cargar la tienda desde el JSON.');
-                   }               
-               }); 
-               }
                 res.writeHead(200, { 'Content-Type': contentType });
                 res.end(content, 'utf8');
             
@@ -200,8 +145,8 @@ function cargarTienda(DATAJSON) {
                 nombre: producto.nombre,
                 descripcion: producto.descripcion
             });
-            console.log("Producto: " + producto.nombre);
-            console.log("Descripción: " + producto.descripcion);
+            //console.log("Producto: " + producto.nombre);
+            //console.log("Descripción: " + producto.descripcion);
         });
         return productos;
     } catch (error) {
@@ -211,6 +156,36 @@ function cargarTienda(DATAJSON) {
 }
 
 
+function procesarArchivoHTML(nombreArchivo, posicionProducto, DATAJSON) {
+    // Lee el archivo HTML correspondiente
+    fs.readFile(nombreArchivo, 'utf8', (err, data) => {
+        if (err) {
+            return console.error('Error al leer el archivo HTML:', err);
+        }
+        
+        // Verifica que la posición del producto sea válida
+        if (posicionProducto < DATAJSON.productos.length) {
+            // Obtiene el nombre y la descripción del producto en la posición especificada
+            const producto = DATAJSON.productos[posicionProducto];
+            const nombreProducto = producto.nombre;
+            const descripcionProducto = producto.descripcion;
+
+            // Realiza el reemplazo del nombre y la descripción del producto en el HTML
+            let nuevoContenido = data.replace("Nombre_Gorro", nombreProducto);
+            nuevoContenido = nuevoContenido.replace("HTML_descrip", descripcionProducto);
+
+            // Guarda los cambios en el archivo HTML
+            fs.writeFile(nombreArchivo, nuevoContenido, 'utf8', (err) => {
+                if (err) {
+                    return console.error('Error al escribir el archivo HTML:', err);
+                }
+                console.log(`El reemplazo en ${nombreArchivo} se ha realizado con éxito.`);
+            });
+        } else {
+            console.error(`La posición ${posicionProducto} está fuera del rango de productos.`);
+        }
+    });
+}
 
 
 

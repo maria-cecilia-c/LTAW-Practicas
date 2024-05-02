@@ -24,15 +24,15 @@
         },
       
         {
-            "nombre": "gato 1",
+            "nombre": "¡Corona michitastica!",
             "descripcion": "¡Haz que tu gato se sienta como la realeza que es con nuestro exclusivo Gorro de Crochet en forma de Corona!",
             "precio": 15,
             "stock": 1234
           },
        
         {
-            "nombre": "perro 1",
-            "descripcion": "JK",
+            "nombre": "Gorro cerdito",
+            "descripcion": "¡Dale a tu fiel amigo peludo un toque de diversión y estilo con nuestro adorable gorro de cerdito para perros hecho a mano con crochet! Este encantador accesorio está diseñado con cuidado y cariño por artesanos expertos, utilizando suaves hilos de calidad para garantizar la comodidad de tu mascota. El gorro presenta el diseño de un cerdito, completo con orejas puntiagudas y una encantadora nariz en relieve, que seguramente robará corazones y atraerá miradas de admiración en cada paseo.¡Haz que tu perro sea el centro de atención con nuestro encantador gorro de cerdito hecho a mano!",
             "precio": 1234,
             "stock": 1234
         }
