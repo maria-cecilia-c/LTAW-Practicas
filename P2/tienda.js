@@ -111,28 +111,38 @@ const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': contentType });
                 res.end(content, 'utf8');
+            
                 // Lee el archivo HTML
                 fs.readFile('gorrito1.html', 'utf8', (err, data) => {
                     if (err) {
                         return console.error('Error al leer el archivo HTML:', err);
                     }               
+            
+                    // Carga la tienda desde el JSON
+                    const tienda = cargarTienda(DATAJSON);   //nombre, descripcion
+                          
+                    if (tienda) {
+                        // Obtiene el primer nombre y descripción
+                        const primerNombre = tienda[0].nombre;
+                        const primerDescripcion = tienda[0].descripcion;
 
-                    // Nombre que deseas insertar
-                     nombreProducto = cargarTienda(DATAJSON);               
-
-                    // Realiza el reemplazo
-                    const nuevoContenido = data.replace("<!--nombre-->", nombreProducto);               
-
-                    // Escribe el archivo HTML con el contenido actualizado
-                    fs.writeFile('gorrito1.html', nuevoContenido, 'utf8', (err) => {
-                        if (err) {
-                            return console.error('Error al escribir el archivo HTML:', err);
-                        }
-                        console.log('El reemplazo se ha realizado con éxito.');
-                    });                 
+                        // Realiza el reemplazo del nombre del producto en el HTML
+                        let nuevoContenido = data.replace("Nombre_Gorro", primerNombre);  
+                        // Reemplaza la descripción del producto en el HTML
+                        nuevoContenido = nuevoContenido.replace("HTML_descrip", primerDescripcion);
+                        // Escribe el archivo HTML con el contenido actualizado
+                        fs.writeFile('gorrito1.html', nuevoContenido, 'utf8', (err) => {
+                            if (err) {
+                                return console.error('Error al escribir el archivo HTML:', err);
+                            }
+                            console.log('El reemplazo se ha realizado con éxito.');
+                        });
+                    } else {
+                        console.error('No se pudo cargar la tienda desde el JSON.');
+                    }               
                 }); 
-               
             }
+            
         });
     }
    
@@ -151,17 +161,22 @@ server.listen(PUERTO, () => {
 function cargarTienda(DATAJSON) {
     try {
         console.log("Productos en la tienda: " + DATAJSON.productos.length);
-        //tienda.productos.forEach((productos, index)=>{
-        //    console.log("Producto " + (index + 1) + ": " + productos.nombre);
-        //});
-          let nombreProducto = DATAJSON.productos[0].nombre;
-          console.log(nombreProducto)
-        return nombreProducto;
+        let productos = [];
+        DATAJSON.productos.forEach(producto => {
+            productos.push({
+                nombre: producto.nombre,
+                descripcion: producto.descripcion
+            });
+            console.log("Producto: " + producto.nombre);
+            console.log("Descripción: " + producto.descripcion);
+        });
+        return productos;
     } catch (error) {
         console.error('Error al cargar el archivo JSON:', error);
         return null;
     }
 }
+
 
 
 
