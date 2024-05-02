@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { cookie } = require('express/lib/response');
 //si hay definida cookie hacer lo que toque, si no, pues enseñar un _toastERROR que diga registrate
 const PUERTO = 8084;
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
@@ -108,6 +109,20 @@ const server = http.createServer((req, res) => {
                  if (url == '/tienda.html'){
                     cookies = getCookies(req)
                     console.log('COOKIEEES en get: ', cookies)
+                    fs.readFile("tienda.html", (err, data) => {
+                    console.log('leyendo el archivo  ', cookies['userName'])
+
+                        if (!err) {
+                            data = data.toString();
+                            data = data.replace("Login", cookies['userName']);
+                            res.writeHead(200, { 'Content-Type': 'text/html' });
+                            res.end(data);
+                        } else {
+                            console.error('Error al leer el archivo HTML:', err);
+                            res.writeHead(500);
+                            res.end('Error interno del servidor al leer el archivo HTML');
+                        }
+                    });
                     //data = manageMain(data, DATABASE ,cookies)  
                     //OK(res,data)
                 }
@@ -234,7 +249,7 @@ function reemplazarNombreUsuario(data, cookies) {
     // Verifica si el nombre de usuario está definido en las cookies
     if (cookies['userName'] != null) {
         // Reemplaza "inicie sesion" con el nombre de usuario
-        data = data.replace("inicie sesion", cookies['userName']);
+        data = data.replace("Login", cookies['userName']);
     } else {
         // Si el nombre de usuario no está definido, muestra un mensaje de error
         console.error('El nombre de usuario no está definido en las cookies.');
