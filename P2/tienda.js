@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 //si hay definida cookie hacer lo que toque, si no, pues enseñar un _toastERROR que diga registrate
-const PUERTO = 9090;
+const PUERTO = 9091;
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
 const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
 const RESPUESTA_LOGIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
@@ -94,9 +94,8 @@ const server = http.createServer((req, res) => {
             });
         }
         
-
+ // Manejar las solicitudes GET para otros recursos
     } else {
-        // Manejar las solicitudes GET para otros recursos
         fs.readFile(filePath, (err, content) => {
             if (err) {
                 if (err.code === 'ENOENT') {
@@ -109,10 +108,8 @@ const server = http.createServer((req, res) => {
                     res.end('Error interno del servidor: ' + err.code);
                 }
             } else {
-                res.writeHead(200, { 'Content-Type': contentType });
-                res.end(content, 'utf8');
-            
-                // Lee el archivo HTML
+                if (url === '/gorrito1.html') {
+                     // Lee el archivo HTML
                 fs.readFile('gorrito1.html', 'utf8', (err, data) => {
                     if (err) {
                         return console.error('Error al leer el archivo HTML:', err);
@@ -128,9 +125,9 @@ const server = http.createServer((req, res) => {
 
                         // Realiza el reemplazo del nombre del producto en el HTML
                         let nuevoContenido = data.replace("Nombre_Gorro", primerNombre);  
-                        // Reemplaza la descripción del producto en el HTML
+                        
                         nuevoContenido = nuevoContenido.replace("HTML_descrip", primerDescripcion);
-                        // Escribe el archivo HTML con el contenido actualizado
+                        
                         fs.writeFile('gorrito1.html', nuevoContenido, 'utf8', (err) => {
                             if (err) {
                                 return console.error('Error al escribir el archivo HTML:', err);
@@ -141,6 +138,42 @@ const server = http.createServer((req, res) => {
                         console.error('No se pudo cargar la tienda desde el JSON.');
                     }               
                 }); 
+                }
+                if (url === '/gorrito2.html') {
+                    // Lee el archivo HTML
+               fs.readFile('gorrito2.html', 'utf8', (err, data) => {
+                   if (err) {
+                       return console.error('Error al leer el archivo HTML:', err);
+                   }               
+           
+                   // Carga la tienda desde el JSON
+                   const tienda = cargarTienda(DATAJSON);   //nombre, descripcion
+                         
+                   if (tienda) {
+                       // Obtiene el primer nombre y descripción
+                       const segundoNombre = tienda[1].nombre;
+                       const segundaDescripcion = tienda[1].descripcion;
+
+                       // Realiza el reemplazo del nombre del producto en el HTML
+                       let nuevoContenido = data.replace("Nombre_Gorro2", segundoNombre);  
+                       
+                       nuevoContenido = nuevoContenido.replace("HTML_descrip2", segundaDescripcion);
+                       
+                       fs.writeFile('gorrito2.html', nuevoContenido, 'utf8', (err) => {
+                           if (err) {
+                               return console.error('Error al escribir el archivo HTML:', err);
+                           }
+                           console.log('El reemplazo se ha realizado con éxito.');
+                       });
+                   } else {
+                       console.error('No se pudo cargar la tienda desde el JSON.');
+                   }               
+               }); 
+               }
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(content, 'utf8');
+            
+               
             }
             
         });
