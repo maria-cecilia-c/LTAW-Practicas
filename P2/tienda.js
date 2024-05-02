@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 //si hay definida cookie hacer lo que toque, si no, pues enseñar un _toastERROR que diga registrate
-const PUERTO = 9091;
+const PUERTO = 8084;
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
 const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
 const RESPUESTA_LOGIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
@@ -10,7 +10,6 @@ const RESPUESTA_LOGIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER
 //----------json
 DATAJSON =  fs.readFileSync('tienda.json', 'utf-8')
 DATAJSON = JSON.parse(DATAJSON)
-console.log(DATAJSON)
 cargarTienda(DATAJSON)
 
 
@@ -53,7 +52,7 @@ const server = http.createServer((req, res) => {
     if (req.method === 'POST') {
 
         if (url == '/procesar'){
-            console.log('----Login----')
+            console.log('\n\x1b[33m%s\x1b[0m', '---- ¡Iniciando sesión! ----\n');
             req.on('data', (content)=> {
                 content = (content.toString()).split("&")
                 content =  convert2Dic(content,"=")
@@ -62,21 +61,18 @@ const server = http.createServer((req, res) => {
                     check = checkUser(content['userName'] , content['password'] ,DATAJSON)
                     // TRUE: saludo y ahora puede añadir objetos al carrito
                     if (check[0]) {
-                        console.log('TRUE');
+                        console.log('\n\x1b[33m%s\x1b[0m','Usuario confirmado',content['userName'])
                         // Array que contiene las cookies que se desean establecer
                         res.setHeader('Set-Cookie', ["userName=" + content['userName']]);
                         res.writeHead(302, {
                             'Location': '/tienda.html'
+                            
                         });
-                        console.log('Estamos en tienda html');
+                        console.log('\n\x1b[36m%s\x1b[0m','Usuario ingresado en la tienda correctamente');
                         // Leer el archivo tienda.html
                         fs.readFile("tienda.html", (err, data) => {
                             if (!err) {
-                                // Obtener las cookies del cliente
-                                const cookies = getCookies(req);
-                                // Modificar el contenido de tienda.html
-                                data = manageMain(data, cookies);
-                                // Enviar el contenido modificado como respuesta
+                                
                                 res.end(data);
                             }
                         });
@@ -94,8 +90,9 @@ const server = http.createServer((req, res) => {
             });
         }
         
- // Manejar las solicitudes GET para otros recursos
+    // Manejar las solicitudes GET para otros recursos
     } else {
+        
         fs.readFile(filePath, (err, content) => {
             if (err) {
                 if (err.code === 'ENOENT') {
@@ -108,6 +105,12 @@ const server = http.createServer((req, res) => {
                     res.end('Error interno del servidor: ' + err.code);
                 }
             } else {
+                 if (url == '/tienda.html'){
+                    cookies = getCookies(req)
+                    console.log('COOKIEEES en get: ', cookies)
+                    //data = manageMain(data, DATABASE ,cookies)  
+                    //OK(res,data)
+                }
                 if (url === '/gorrito1.html') {
                     procesarArchivoHTML('gorrito1.html', 0, DATAJSON);
                 } else if (url === '/gorrito2.html') {
@@ -134,8 +137,14 @@ server.listen(PUERTO, () => {
 });
 
 
-//------------Lectura JSON
-//JSON.stringify(variable)inversa de variable a json
+
+
+/*
+===============================================
+               FUNCIONES
+===============================================
+*/
+
 function cargarTienda(DATAJSON) {
     try {
         console.log("Productos en la tienda: " + DATAJSON.productos.length);
@@ -189,7 +198,7 @@ function procesarArchivoHTML(nombreArchivo, posicionProducto, DATAJSON) {
 
 
 
-//---------------------FUNCIONES--------------------------
+
 
 function convert2Dic(params , split){
 
@@ -218,17 +227,23 @@ function checkUser(usuario,password,DATAJSON){
 
 
 
-function manageMain(data, cookies) {
-  data = data.toString();
-  if (cookies['userName'] != null) {
-      data = data.replace("usuario", cookies['userName']);
-      //se cambia el usuario por pepe, pero no se ve en el front
-  } else {
-      console.log('error');
+function reemplazarNombreUsuario(data, cookies) {
+    // Convierte el contenido a una cadena si aún no lo es
+    data = data.toString();
+    
+    // Verifica si el nombre de usuario está definido en las cookies
+    if (cookies['userName'] != null) {
+        // Reemplaza "inicie sesion" con el nombre de usuario
+        data = data.replace("inicie sesion", cookies['userName']);
+    } else {
+        // Si el nombre de usuario no está definido, muestra un mensaje de error
+        console.error('El nombre de usuario no está definido en las cookies.');
+        // Podrías devolver un valor predeterminado o lanzar una excepción aquí
+    }
+    
+    return data;
   }
-  return data;
-}
-
+  
   
   
 function getCookies(req){
