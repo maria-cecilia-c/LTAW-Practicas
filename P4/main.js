@@ -4,6 +4,7 @@ const socket = require('socket.io');
 const http = require('http');
 const express = require('express');
 const colors = require('colors');
+const { client } = require('websocket');
 
 
 
@@ -47,7 +48,9 @@ electron.app.on('ready', () => {
       const urlParams = new URLSearchParams(new URL(url).search);
       const username = urlParams.get('username');
       console.log('Nombre de usuario:', username);
-    
+      clients.push(username)
+      win.webContents.send('UsuariosConect' ,clients)
+      
       //aqui teno el color seleccionado por el usuario
       const color = urlParams.get('color');
       console.log('Color seleccionado:', color);
@@ -58,6 +61,12 @@ electron.app.on('ready', () => {
         UsuariosConectados = UsuariosConectados - 1;
         console.log('** CONEXIÓN TERMINADA **'.yellow);
         io.send('CONEXIÓN TERMINADA ');
+        //eliminar el que se va 
+        //TODO: MIRAR ESTO 
+        clients = clients.filter(item => item != username)
+        clients.push(username)
+        win.webContents.send('UsuariosConect' ,clients)
+
       });  
     
       //-- Mensaje recibido: Reenviarlo a todos los clientes conectados
@@ -67,9 +76,7 @@ electron.app.on('ready', () => {
         comandosEspeciales(msg,socket,UsuariosConectados, username, color)
       });
 
-      clients.push(UsuariosConectados)
       //'usersCon' es el nombre del evento o mensaje que se está enviando y el clients es la info
-      win.webContents.send('UsuariosConect' ,clients)
     });
     //-- Lanzar el servidor HTTP
     //-- ¡Que empiecen los juegos de los WebSockets!
@@ -90,19 +97,12 @@ electron.app.on('ready', () => {
         }
     });
 
-  //   win.on('ready-to-show', () => { //Esta parte del código se activa cuando la ventana de la aplicación está lista para mostrarse.
-  //     win.webContents.send('usersCon' ,clients) //Envía un mensaje llamado 'usersCon' junto con la información contenida en la variable clients al proceso de renderizado de la ventana. 
+     win.on('ready-to-show', () => { //Esta parte del código se activa cuando la ventana de la aplicación está lista para mostrarse.
+       win.webContents.send('UsuariosConect' ,clients) //Envía un mensaje llamado 'usersCon' junto con la información contenida en la variable clients al proceso de renderizado de la ventana. 
 
-      
-  //     const url = "http://" + ip.address() + ":" + PUERTO;
-      
-  //     win.webContents.send('conectionInformation' , JSON.stringify([ip.address(), PUERTO]))
+     })
 
-  //     electron.ipcMain.handle('serverMess',(event,msg) => {
-  //       io.emit("message", JSON.stringify([ "general", "server" ,msg]));
-  //   })
-
-  // })
+   
 
 
   //-- En la parte superior se nos ha creado el menu

@@ -40,7 +40,7 @@ electron.ipcRenderer.on('print', (event, message) => {
 
 //lista de usuarios conectados
 electron.ipcRenderer.on('UsuariosConect' , (event,message) => {
-    console.log('infoo: ', message)
-    document.getElementById("usersConNum").innerHTML = message.length;
+    const listaUsers = document.getElementById("usersConNum") ;
+    listaUsers.textContent = message.length
     
 })
