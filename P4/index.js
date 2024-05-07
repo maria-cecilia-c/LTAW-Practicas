@@ -31,11 +31,11 @@ btn_test.onclick = () => {
 
 
 //-- Mensaje recibido del proceso MAIN
-electron.ipcRenderer.on('print', (event, message) => {
-    console.log("Recibido: " + message);
-    display.innerHTML += '<p style="color:black">' + msg + '</p>';
-    print.textContent = message;
-});
+// electron.ipcRenderer.on('print', (event, message) => {
+//     console.log("Recibido: " + message);
+//     display.innerHTML += '<p style="color:black">' + msg + '</p>';
+//     print.textContent = message;
+// });
 
 
 //lista de usuarios conectados
