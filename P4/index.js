@@ -29,8 +29,18 @@ btn_test.onclick = () => {
     electron.ipcRenderer.invoke('test', "MENSAJE DE PRUEBA: Boton apretado");
 }
 
+
 //-- Mensaje recibido del proceso MAIN
 electron.ipcRenderer.on('print', (event, message) => {
     console.log("Recibido: " + message);
+    display.innerHTML += '<p style="color:black">' + msg + '</p>';
     print.textContent = message;
-  });
+});
+
+
+//lista de usuarios conectados
+electron.ipcRenderer.on('UsuariosConect' , (event,message) => {
+    console.log('infoo: ', message)
+    document.getElementById("usersConNum").innerHTML = message.length;
+    
+})
