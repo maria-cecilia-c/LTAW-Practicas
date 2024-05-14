@@ -21,6 +21,8 @@ info3.textContent = process.versions.electron;
 const url = "http://" + ip.address() + ":" + 2020;
 info4.textContent = url;
 
+const lastMessages = [];
+
 btn_test.onclick = () => {
     display.innerHTML += "TEST! ";
     console.log("Botón apretado!");
@@ -33,9 +35,16 @@ btn_test.onclick = () => {
 
 //-- Mensaje recibido del proceso MAIN
  electron.ipcRenderer.on('mensajeClientes', (event, message) => {
-    console.log('Debreia ver algo aqui no ????: ',message)
     const msgclientes = document.getElementById("msgClient") ;
-    msgclientes.innerHTML += message;
+    lastMessages.push(message);
+    if (lastMessages.length > 3) {
+        lastMessages.shift(); 
+    }
+    msgclientes.innerHTML = "";
+    lastMessages.forEach(msg => {
+        msgclientes.innerHTML += msg + "<br>";
+    });
+  
 
  });
 
