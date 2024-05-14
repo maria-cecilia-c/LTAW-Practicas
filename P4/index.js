@@ -25,17 +25,19 @@ btn_test.onclick = () => {
     display.innerHTML += "TEST! ";
     console.log("Botón apretado!");
 
-    //-- Enviar mensaje al proceso principal
-    electron.ipcRenderer.invoke('test', "MENSAJE DE PRUEBA: Boton apretado");
+    //-- Enviar mensaje al proceso principal, le pones el nombre de test 
+    electron.ipcRenderer.invoke('test', "HOLIS desde el servidor");
+    
 }
 
 
 //-- Mensaje recibido del proceso MAIN
-// electron.ipcRenderer.on('print', (event, message) => {
-//     console.log("Recibido: " + message);
-//     display.innerHTML += '<p style="color:black">' + msg + '</p>';
-//     print.textContent = message;
-// });
+ electron.ipcRenderer.on('mensajeClientes', (event, message) => {
+    console.log('Debreia ver algo aqui no ????: ',message)
+    const msgclientes = document.getElementById("msgClient") ;
+    msgclientes.innerHTML += message;
+
+ });
 
 
 //lista de usuarios conectados

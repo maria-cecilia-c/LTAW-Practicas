@@ -22,7 +22,7 @@ electron.app.on('ready', () => {
 
    
     //--------------CHAT
-    const PUERTO = 9093;
+    const PUERTO = 9090;
     let UsuariosConectados = 0;   
 
     const app = express();
@@ -73,6 +73,7 @@ electron.app.on('ready', () => {
       socket.on("message", (msg)=> {
        //el msg es solo mensaje, en la terminal
         console.log("Mensaje Recibido!"+ username.green +': ' + msg.blue);
+        win.webContents.send('mensajeClientes' ,msg)
         comandosEspeciales(msg,socket,UsuariosConectados, username, color)
       });
 
@@ -175,13 +176,16 @@ function getDate(){
 }
 
 
-});
-
-
 //-- Esperar a recibir los mensajes de botón apretado (Test) del proceso de 
 //-- renderizado. Al recibirlos se escribe una cadena en la consola
 electron.ipcMain.handle('test', (event, msg) => {
   console.log("-> Mensaje: " + msg);
+  io.emit('message', msg)
 });
+
+});
+
+
+
 
 
