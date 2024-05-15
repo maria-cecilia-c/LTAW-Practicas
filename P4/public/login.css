@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #b7a1c2;
+    background-color: #ebdaf4;
   }
   form {
     width: 300px;
@@ -18,13 +18,13 @@ body {
     box-sizing: border-box;
   }
   input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #4c9daf;
     color: white;
     border: none;
     cursor: pointer;
   }
   input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #458ba0;
   }
 
   .texto {
@@ -32,8 +32,8 @@ body {
     font-family: Comic Sans MS; 
     font-weight:bold; 
     font-size: 30px; 
-    color: #EBD758; 
-    text-shadow: -1px 0 #414D68, 0 1px #414D68, 1px 0 #414D68, 0 -1px #414D68, -2px 2px 0 #414D68, 2px 2px 0 #414D68, 1px 1px #414D68, 2px 2px #414D68, 3px 3px #414D68, 4px 4px #414D68, 5px 5px #414D68, 6px 6px #414D68, 7px 7px #414D68, 8px 8px #414D68, 9px 9px #414D68;
+    color: #b691e4; 
+    text-shadow: -1px 0 #9a58eb, 0 1px #9a58eb, 1px 0 #9a58eb, 0 -1px #9a58eb, -2px 2px 0 #9a58eb, 2px 2px 0 #9a58eb, 1px 1px #9a58eb, 2px 2px #9a58eb, 3px 3px #9a58eb, 4px 4px #9a58eb, 5px 5px #9a58eb, 6px 6px #9a58eb, 7px 7px #9a58eb, 8px 8px #9a58eb, 9px 9px #9a58eb;
   }
   .descripcion{
     text-align: center;
