@@ -1,6 +1,6 @@
 
 h1 {
-  width: 93%;
+  width: 98%;
   padding: 20px;
   background-color: #b7a1c2;
   border-radius: 10px;
@@ -11,7 +11,7 @@ h1 {
   display: flex;
 }
 .info {
-  width: 93%;
+  width: 100%;
   padding: 20px;
   background-color: #dbd0e1;
   border-radius: 10px;
@@ -38,8 +38,8 @@ h1 {
   border-radius: 10px;
 }
 .mensajes {
-  width: 93%;
-  padding: 20px;
+  width: 100%;
+  margin-left: 10px;
   background-color: #dbd0e1;
   border-radius: 10px;
   text-align: right;

@@ -1,9 +1,63 @@
-body{
-    background-color: #ede8f0;
-}
-.display{
-    font-weight: bold;
-}
+
 .container{
    text-decoration: dashed;
 }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ede8f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  h3 {
+    color: #555;
+  }
+  
+  .display {
+    background-color: #fff;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .display p {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  input[type="text"] {
+    width: calc(50%);
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ff5d5d;
+    border-radius: 5px;
+  }
+  
+  input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Estilos para el botón (opcional) */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

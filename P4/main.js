@@ -22,7 +22,7 @@ electron.app.on('ready', () => {
 
    
     //--------------CHAT
-    const PUERTO = 9090;
+    const PUERTO = 9092;
 
 
     let UsuariosConectados = 0;   
