@@ -3,7 +3,7 @@ body {
     background-color: #ebdaf4;
   }
   form {
-    width: 300px;
+    width: 750px;
     margin: 0 auto;
   }
   input[type="text"],
@@ -32,7 +32,7 @@ body {
     font-family: Comic Sans MS; 
     font-weight:bold; 
     font-size: 30px; 
-    color: #b691e4; 
+    color: #bb9de1; 
     text-shadow: -1px 0 #9a58eb, 0 1px #9a58eb, 1px 0 #9a58eb, 0 -1px #9a58eb, -2px 2px 0 #9a58eb, 2px 2px 0 #9a58eb, 1px 1px #9a58eb, 2px 2px #9a58eb, 3px 3px #9a58eb, 4px 4px #9a58eb, 5px 5px #9a58eb, 6px 6px #9a58eb, 7px 7px #9a58eb, 8px 8px #9a58eb, 9px 9px #9a58eb;
   }
   .descripcion{
