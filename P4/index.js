@@ -63,5 +63,9 @@ electron.ipcRenderer.on('UsuariosConect' , (event,message) => {
     users.textContent = message[0]
     const users2 = document.getElementById("user2") ;
     users2.textContent = message[1]
+    const users3 = document.getElementById("user3") ;
+    users3.textContent = message[2]
+    const users4 = document.getElementById("user4") ;
+    users4.textContent = message[3]
     
 })
