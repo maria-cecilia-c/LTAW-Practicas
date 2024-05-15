@@ -1,8 +1,11 @@
 
+body{
+  background-color: #d7c1e2;
+}
 h1 {
   width: 98%;
   padding: 20px;
-  background-color: #b7a1c2;
+  background-color: #c499da;
   border-radius: 10px;
   text-align: center;
 }
@@ -59,3 +62,4 @@ color: red;
     border: 2px solid #dbd0e1;
     padding: 10px;
 }
+
