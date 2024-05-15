@@ -1,3 +1,9 @@
+body{
+    background-color: #ede8f0;
+}
 .display{
     font-weight: bold;
+}
+.container{
+   text-decoration: dashed;
 }

@@ -23,6 +23,8 @@ electron.app.on('ready', () => {
    
     //--------------CHAT
     const PUERTO = 9090;
+
+
     let UsuariosConectados = 0;   
 
     const app = express();
@@ -36,7 +38,7 @@ electron.app.on('ready', () => {
     app.use(express.static('public'));
 
     io.on('connect', (socket) => {
-  
+     
       console.log('** NUEVA CONEXIÓN **'.yellow);
       io.send('Nueva conexión');
       UsuariosConectados = UsuariosConectados + 1;
@@ -50,6 +52,7 @@ electron.app.on('ready', () => {
       console.log('Nombre de usuario:', username);
       clients.push(username)
       win.webContents.send('UsuariosConect' ,clients)
+     
       
       //aqui teno el color seleccionado por el usuario
       const color = urlParams.get('color');
@@ -100,38 +103,23 @@ electron.app.on('ready', () => {
 
      win.on('ready-to-show', () => { //Esta parte del código se activa cuando la ventana de la aplicación está lista para mostrarse.
        win.webContents.send('UsuariosConect' ,clients) //Envía un mensaje llamado 'usersCon' junto con la información contenida en la variable clients al proceso de renderizado de la ventana. 
-
+       win.webContents.send('infoUrl' , PUERTO)
      })
 
    
 
-
-  //-- En la parte superior se nos ha creado el menu
-  //-- por defecto
-  //-- Si lo queremos quitar, hay que añadir esta línea
-  //win.setMenuBarVisibility(false)
-
-  //-- Cargar contenido web en la ventana
-  //-- La ventana es en realidad.... ¡un navegador!
-  //win.loadURL('https://www.urjc.es/etsit');
-
-  //-- Cargar interfaz gráfica en HTML
   win.loadFile("main.html");
 
-  //-- Esperar a que la página se cargue y se muestre
-  //-- y luego enviar el mensaje al proceso de renderizado para que 
-  //-- lo saque por la interfaz gráfica
   win.on('ready-to-show', () => {
     win.webContents.send('print', "MENSAJE ENVIADO DESDE PROCESO MAIN");
   });
 
-  //-- Enviar un mensaje al proceso de renderizado para que lo saque
-  //-- por la interfaz gráfica
+ 
   win.webContents.send('print', "MENSAJE ENVIADO DESDE PROCESO MAIN");
 
 
 
-  //funciones 
+//funciones 
 
 function comandosEspeciales(comand, socket, UsuariosConectados, username, color){ 
 

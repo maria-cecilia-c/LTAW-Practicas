@@ -2,7 +2,7 @@
 h1 {
   width: 93%;
   padding: 20px;
-  background-color: lightgreen;
+  background-color: #b7a1c2;
   border-radius: 10px;
   text-align: center;
 }
@@ -13,14 +13,34 @@ h1 {
 .info {
   width: 93%;
   padding: 20px;
-  background-color: lightgreen;
+  background-color: #dbd0e1;
   border-radius: 10px;
   text-align: left;
+}
+.informationContainer{
+  padding: 20px;
+  background-color: #ede8f0;
+  border-radius: 10px;
+}
+.usersContainer{
+  padding: 20px;
+  background-color: #ede8f0;
+  border-radius: 10px;
+}
+.msgContainer{
+  padding: 20px;
+  background-color: #ede8f0;
+  border-radius: 10px;
+}
+.ipContainer{
+  padding: 20px;
+  background-color: #ede8f0;
+  border-radius: 10px;
 }
 .mensajes {
   width: 93%;
   padding: 20px;
-  background-color: rgb(198, 255, 198);
+  background-color: #dbd0e1;
   border-radius: 10px;
   text-align: right;
 }
@@ -35,6 +55,6 @@ color: red;
 }
 
 #display {
-    border: 2px solid lightblue;
+    border: 2px solid #dbd0e1;
     padding: 10px;
 }

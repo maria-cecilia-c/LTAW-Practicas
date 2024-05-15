@@ -18,20 +18,21 @@ const print = document.getElementById("print");
 info1.textContent = process.version;
 info2.textContent = process.versions.chrome;
 info3.textContent = process.versions.electron;
-const url = "http://" + ip.address() + ":" + 2020;
-info4.textContent = url;
 
+let msgservidor = false;
 const lastMessages = [];
 
 btn_test.onclick = () => {
-    display.innerHTML += "TEST! ";
-    console.log("Botón apretado!");
-
+    //display.innerHTML += "mensaje enviado a los clientes! ";
     //-- Enviar mensaje al proceso principal, le pones el nombre de test 
     electron.ipcRenderer.invoke('test', "HOLIS desde el servidor");
-    
+    msgservidor = true
+    console.log(msgservidor)
 }
 
+if (msgservidor = true) {
+    display.innerHTML += "mensaje enviado a los clientes! ";
+} 
 
 //-- Mensaje recibido del proceso MAIN
  electron.ipcRenderer.on('mensajeClientes', (event, message) => {
@@ -47,7 +48,11 @@ btn_test.onclick = () => {
   
 
  });
-
+ electron.ipcRenderer.on('infoUrl' , (event,message) => {
+    const url = "http://" + ip.address() + ":" + message;
+    info4.textContent = url;
+    
+})
 
 //lista de usuarios conectados
 electron.ipcRenderer.on('UsuariosConect' , (event,message) => {
