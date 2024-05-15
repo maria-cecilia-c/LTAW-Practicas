@@ -2,7 +2,10 @@ body{
     background-color: rgb(253, 241, 252);
 }
 
-
+.textoinfo{
+  text-align: justify;
+  margin: 20px;
+}
 .container-card{
     width: 100%;
     display: flex;

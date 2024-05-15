@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { cookie } = require('express/lib/response');
 //si hay definida cookie hacer lo que toque, si no, pues enseñar un _toastERROR que diga registrate
-const PUERTO = 8084;
+const PUERTO = 8080;
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
 const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
 const RESPUESTA_LOGIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
@@ -193,10 +193,14 @@ function procesarArchivoHTML(nombreArchivo, posicionProducto, DATAJSON) {
             const producto = DATAJSON.productos[posicionProducto];
             const nombreProducto = producto.nombre;
             const descripcionProducto = producto.descripcion;
+            const precioProducto = producto.precio;
+
 
             // Realiza el reemplazo del nombre y la descripción del producto en el HTML
             let nuevoContenido = data.replace("Nombre_Gorro", nombreProducto);
             nuevoContenido = nuevoContenido.replace("HTML_descrip", descripcionProducto);
+            nuevoContenido = nuevoContenido.replace("HTML_precio", precioProducto);
+
 
             // Guarda los cambios en el archivo HTML
             fs.writeFile(nombreArchivo, nuevoContenido, 'utf8', (err) => {
