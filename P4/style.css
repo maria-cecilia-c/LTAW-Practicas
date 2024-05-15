@@ -39,10 +39,11 @@ h1 {
 }
 .mensajes {
   width: 100%;
+  padding-left: 10px;
   margin-left: 10px;
   background-color: #dbd0e1;
   border-radius: 10px;
-  text-align: right;
+  text-align: left;
 }
 
 

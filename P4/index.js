@@ -58,5 +58,10 @@ if (msgservidor = true) {
 electron.ipcRenderer.on('UsuariosConect' , (event,message) => {
     const listaUsers = document.getElementById("usersConNum") ;
     listaUsers.textContent = message.length
+
+    const users = document.getElementById("user1") ;
+    users.textContent = message[0]
+    const users2 = document.getElementById("user2") ;
+    users2.textContent = message[1]
     
 })
