@@ -109,11 +109,11 @@ const server = http.createServer((req, res) => {
             } else {
                  if (url == '/tienda.html'){
                     cookies = getCookies(req)
-                    console.log('COOKIEEES en get: ', cookies)
-                   //! funcion replace nick
-                   if (url === '/tienda.html') {
-                    procesarArchivoHTML('tienda.html', 0, DATAJSON);
-                    } 
+                   if (cookies.userName === 'JK') {
+                        procesarArchivoHTML('tienda.html', 0, DATAJSON);
+                    } else if (cookies.userName === 'root'){
+                        procesarArchivoHTML('tienda.html', 1, DATAJSON);
+                    }
                     fs.readFile("tienda.html", (err, data) => {
                     console.log('leyendo el archivo  ', cookies['userName'])
 
