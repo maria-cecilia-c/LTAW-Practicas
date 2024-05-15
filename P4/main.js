@@ -5,9 +5,10 @@ const http = require('http');
 const express = require('express');
 const colors = require('colors');
 const { client } = require('websocket');
+const fs = require('fs');
 
-
-
+const data = fs.readFileSync('palabrasBetadas.json', 'utf8');
+const palabrasBetadas = JSON.parse(data).palabrasBetadas;
 
 console.log("Arrancando electron...");
 
@@ -22,7 +23,7 @@ electron.app.on('ready', () => {
 
    
     //--------------CHAT
-    const PUERTO = 9092;
+    const PUERTO = 9090;
 
 
     let UsuariosConectados = 0;   
@@ -134,18 +135,25 @@ function comandosEspeciales(comand, socket, UsuariosConectados, username, color)
           return;
           
       case "/hello":
-          socket.emit("message" , ("Recuerda: Vida antes que muerte, fuerza antes que debeilidad y viaje antes que destino"));
+          socket.emit("message" , ("Recuerda: Vida antes que muerte, fuerza antes que debilidad y viaje antes que destino"));
           return;
 
       case "/date":
           socket.emit("message" , (getDate()))
           break;
 
-      default:
-        
-        io.send('<span style="color:' + color + '">' + username + '</span>: ' + comand);
+          default:
+            // Verificar si el comando contiene palabras betadas
+            for (let palabra of palabrasBetadas) {
+                if (comand.includes(palabra)) {
+                    socket.emit("message", "Eso no está permitido");
+                    return;
+                }
+            }
 
-        return;
+            io.send('<span style="color:' + color + '">' + username + '</span>: ' + comand);
+
+            return;
 }
 }
 
