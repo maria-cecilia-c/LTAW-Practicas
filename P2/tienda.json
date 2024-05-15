@@ -3,13 +3,13 @@
         {
             "nombre": "Jeon Jungkook",
             "usuario": "JK",
-            "email": "1234",
+            "email": "jeonkOO@gmail.comK",
             "password": 1234
         },
         {
             "nombre": "root",
             "usuario": "pepe",
-            "email": "5678",
+            "email": "pepethemaster@root.com",
             "password": 1234
 
         }
@@ -19,7 +19,7 @@
         {
             "nombre": "Gorrito Flor",
             "descripcion": "Este adorable gorro hecho a mano para hamster es más que una simple prenda; es una expresión de amor y cuidado. Con una forma encantadora de flor, este gorro no solo brinda calidez y comodidad a tu pequeño amigo peludo, sino que también le agrega un toque de estilo y elegancia a su apariencia. Confeccionado con materiales suaves y seguros para las delicadas orejas y piel de tu hámster, este gorro presenta pétalos delicadamente tejidos que se pliegan suavemente alrededor de su cabecita, creando una imagen encantadora y juguetona.",
-            "precio": 1234,
+            "precio": 25,
             "stock": 1234
         },
       
@@ -33,7 +33,7 @@
         {
             "nombre": "Gorro cerdito",
             "descripcion": "¡Dale a tu fiel amigo peludo un toque de diversión y estilo con nuestro adorable gorro de cerdito para perros hecho a mano con crochet! Este encantador accesorio está diseñado con cuidado y cariño por artesanos expertos, utilizando suaves hilos de calidad para garantizar la comodidad de tu mascota. El gorro presenta el diseño de un cerdito, completo con orejas puntiagudas y una encantadora nariz en relieve, que seguramente robará corazones y atraerá miradas de admiración en cada paseo.¡Haz que tu perro sea el centro de atención con nuestro encantador gorro de cerdito hecho a mano!",
-            "precio": 1234,
+            "precio": 20,
             "stock": 1234
         }
         

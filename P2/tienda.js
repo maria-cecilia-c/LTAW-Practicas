@@ -71,9 +71,10 @@ const server = http.createServer((req, res) => {
                         });
                         console.log('\n\x1b[36m%s\x1b[0m','Usuario ingresado en la tienda correctamente');
                         // Leer el archivo tienda.html
+                       
                         fs.readFile("tienda.html", (err, data) => {
                             if (!err) {
-                                
+                              
                                 res.end(data);
                             }
                         });
@@ -109,6 +110,10 @@ const server = http.createServer((req, res) => {
                  if (url == '/tienda.html'){
                     cookies = getCookies(req)
                     console.log('COOKIEEES en get: ', cookies)
+                   //! funcion replace nick
+                   if (url === '/tienda.html') {
+                    procesarArchivoHTML('tienda.html', 0, DATAJSON);
+                    } 
                     fs.readFile("tienda.html", (err, data) => {
                     console.log('leyendo el archivo  ', cookies['userName'])
 
@@ -201,6 +206,26 @@ function procesarArchivoHTML(nombreArchivo, posicionProducto, DATAJSON) {
             nuevoContenido = nuevoContenido.replace("HTML_descrip", descripcionProducto);
             nuevoContenido = nuevoContenido.replace("HTML_precio", precioProducto);
 
+
+            // Guarda los cambios en el archivo HTML
+            fs.writeFile(nombreArchivo, nuevoContenido, 'utf8', (err) => {
+                if (err) {
+                    return console.error('Error al escribir el archivo HTML:', err);
+                }
+                console.log(`El reemplazo en ${nombreArchivo} se ha realizado con éxito.`);
+            });
+        } else {
+            console.error(`La posición ${posicionProducto} está fuera del rango de productos.`);
+        }
+
+        //
+        if (posicionProducto < DATAJSON.nombres.length) {
+            // Obtiene el nombre y la descripción del producto en la posición especificada
+            const nombres = DATAJSON.nombres[posicionProducto];
+            const nombreUser = nombres.nombre;
+        
+            // Realiza el reemplazo del nombre y la descripción del producto en el HTML
+            let nuevoContenido = data.replace("nick", nombreUser);
 
             // Guarda los cambios en el archivo HTML
             fs.writeFile(nombreArchivo, nuevoContenido, 'utf8', (err) => {
