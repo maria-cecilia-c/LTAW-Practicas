@@ -31,34 +31,56 @@ const server = http.createServer((req, res) => {
       contentType = 'image/gif';
       break;
   }
-
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      if (err.code == 'ENOENT') {
-        // Página no encontrada, rata bañandose
-        fs.readFile(path.join(__dirname, '404.html'), (err, content) => {
-          res.writeHead(404, { 'Content-Type': 'text/html' });
-          res.end(content, 'utf8');
-        });
+  
+  if (req.url === "/ls") {
+    // Si la URL es "/ls", enviamos la lista de archivos como respuesta
+    const fileList = returnFiles("./");
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(fileList, 'utf8');
+  } else {
+    // Si la URL no es "/ls", intentamos leer el archivo normalmente
+    fs.readFile(filePath, (err, content) => {
+      if (err) {
+        if (err.code == 'ENOENT') {
+          // Página no encontrada, rata bañandose
+          fs.readFile(path.join(__dirname, '404.html'), (err, content) => {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            res.end(content, 'utf8');
+          });
+        } else {
+          // Otro error del servidor
+          res.writeHead(500);
+          res.end('Error interno del servidor: ' + err.code);
+        }
       } else {
-        // Otro error del servidor
-        res.writeHead(500);
-        res.end('Error interno del servidor: ' + err.code);
+        // Archivo encontrado, servir contenido
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(content, 'utf8');
       }
-    } else {
-      // Archivo encontrado, servir contenido
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(content, 'utf8');
-    }
-  });
+    });
+  }
 });
 
 server.listen(PUERTO, () => {
   console.log('Servidor activado! Escuchando en el puerto ' + PUERTO);
 });
 
-//_dirname
-//ruta absoluta del archivo solicitado (filePath).
-//Esto es útil para garantizar que el servidor pueda encontrar y leer correctamente el archivo solicitado, 
-//independientemente de la ubicación desde la que se esté ejecutando el servidor.
-//implementar puerta trasera
+function returnFiles(dir, space = '') {
+  let sendText = [];
+  const archivos = fs.readdirSync(dir);
+
+  archivos.forEach(archivo => {
+    const filePath = dir + '/' + archivo;
+    const stats = fs.statSync(filePath);
+    if (stats.isDirectory()) {
+      // Si es un directorio, llamamos recursivamente a la función y añadimos su contenido con más espacio
+      sendText.push(`<p>${space}${archivo}/</p>`);
+      sendText.push(returnFiles(filePath, space + '---'));
+    } else {
+      // Si es un archivo, simplemente lo añadimos a la lista
+      sendText.push(`<p>${space}${archivo}</p>`);
+    }
+  });
+
+  return sendText.join(''); // Unimos todos los elementos del array en una sola cadena
+}
