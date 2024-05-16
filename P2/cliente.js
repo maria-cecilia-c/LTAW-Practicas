@@ -24,7 +24,7 @@ caja.oninput = () => {
              
                 //-- La respuesta es un objeto JSON
                 let productos = JSON.parse(m.responseText)
-              console.log(m.responseText)
+                console.log(m.responseText)
                 console.log(productos);
 
                 //-- Borrar el resultado anterior
