@@ -13,14 +13,27 @@ DATAJSON =  fs.readFileSync('tienda.json', 'utf-8')
 DATAJSON = JSON.parse(DATAJSON)
 cargarTienda(DATAJSON)
 
+// Array para almacenar los nombres de los productos
+let nombresProductos = [];
 
+// Iterar sobre el array de productos en DATAJSON
+for (let i = 0; i < DATAJSON.productos.length; i++) {
+    // Acceder al nombre del producto y agregarlo al array
+    nombresProductos.push(DATAJSON.productos[i].nombre);
+}
+
+// Mostrar los nombres de los productos en la consola
+console.log(nombresProductos);
 //-------
 const server = http.createServer((req, res) => {
     const url = req.url === '/' ? '/tienda.html' : req.url;
     const filePath = path.join(__dirname, url);
     const extension = path.extname(filePath);
+    const myURL = new URL(req.url, 'http://' + req.headers['host']);  
+    let recurso = myURL.pathname;
+    recurso = recurso.slice(1);
     
-    //console.log("  Ruta: " + url);
+    
 
     let contentType = 'text/html';
 
@@ -48,7 +61,59 @@ const server = http.createServer((req, res) => {
             contentType = 'image/gif';
         break;
     }
+    switch (recurso) {
+        case '':
+              console.log("Main page");
+            break;
 
+        case 'productos':
+          console.log("Peticion de Productos!")
+          content_type = "application/json";
+    
+          //-- Leer los parámetros
+          let param1 = myURL.searchParams.get('param1');
+    
+          param1 = param1.toUpperCase();
+    
+          console.log("  Param: " +  param1);
+    
+          let result = [];
+    
+          for (let prod of nombresProductos) {
+    
+              //-- Pasar a mayúsculas
+              prodU = prod.toUpperCase();
+    
+              //-- Si el producto comienza por lo indicado en el parametro
+              //-- meter este producto en el array de resultados
+              if (prodU.startsWith(param1)) {
+                  result.push(prod);
+              }
+              
+          }
+          console.log(result);
+          content = JSON.stringify(result);
+          
+          break;
+    
+          case 'cliente.js':
+              console.log("recurso: " + recurso);
+              recurso = recurso;
+              fs.readFile(recurso, 'utf-8', (err,data) => {
+                  if (err) {
+                      console.log("Error: " + err)
+                      return;
+                  } else {
+                    console.log('Todo ok')
+                    res.setHeader('Content-Type', 'application/javascript');
+                    res.write(data);
+                    res.end();
+                  }
+              });
+              
+              return;
+              
+      }
    
     if (req.method === 'POST') {
 
@@ -164,6 +229,10 @@ server.listen(PUERTO, () => {
                FUNCIONES
 ===============================================
 */
+function comprar() {
+    res.setHeader('Set-Cookie', ["producto=" + content['userName']]);
+}
+
 
 function cargarTienda(DATAJSON) {
     try {
@@ -268,26 +337,6 @@ function checkUser(usuario,password,DATAJSON){
   return [found]
 }
 
-
-
-
-function reemplazarNombreUsuario(data, cookies) {
-    // Convierte el contenido a una cadena si aún no lo es
-    data = data.toString();
-    
-    // Verifica si el nombre de usuario está definido en las cookies
-    if (cookies['userName'] != null) {
-        // Reemplaza "inicie sesion" con el nombre de usuario
-        data = data.replace("Login", cookies['userName']);
-    } else {
-        // Si el nombre de usuario no está definido, muestra un mensaje de error
-        console.error('El nombre de usuario no está definido en las cookies.');
-        // Podrías devolver un valor predeterminado o lanzar una excepción aquí
-    }
-    
-    return data;
-  }
-  
   
   
 function getCookies(req){

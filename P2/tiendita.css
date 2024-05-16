@@ -13,6 +13,9 @@ body{
     margin: auto;
     justify-content: center; 
 }
+.buscador{
+  text-align: center;
+}
 
 .title-cards{
     width: 100%;
