@@ -5,7 +5,6 @@ const display1 = document.getElementById("display1");
 
 //-- Caja de busqueda
 const caja = document.getElementById("caja");
-
 //-- Retrollamda del boton de Ver productos
 caja.oninput = () => {
 
@@ -46,7 +45,7 @@ caja.oninput = () => {
                 //-- Hay un error en la petición
                 //-- Lo notificamos en la consola y en la propia web
                 console.log("Error en la petición: " + m.status + " " + m.statusText);
-                display2.innerHTML += '<p>ERROR</p>'
+                display1.innerHTML += '<p>ERROR</p>'
             }
         }
     }
@@ -57,7 +56,7 @@ caja.oninput = () => {
     if (caja.value.length >= 1) {
 
       //-- Configurar la petición
-      m.open("GET","/productos?param1=" + caja.value, true);
+      m.open("GET","/productos?param1=" + caja.value, true); //ruta que el cliente está solicitando al servidor.
 
       //-- Enviar la petición!
       m.send();

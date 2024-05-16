@@ -6,9 +6,10 @@ const { cookie } = require('express/lib/response');
 const PUERTO = 8080;
 const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
 const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
-const RESPUESTA_LOGIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
-
+const MAIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
+const ERROR = fs.readFileSync('404.html');
 //----------json
+
 DATAJSON =  fs.readFileSync('tienda.json', 'utf-8')
 DATAJSON = JSON.parse(DATAJSON)
 cargarTienda(DATAJSON)
@@ -64,6 +65,8 @@ const server = http.createServer((req, res) => {
     switch (recurso) {
         case '':
               console.log("Main page");
+              content = MAIN;
+             
             break;
 
         case 'productos':
@@ -91,6 +94,7 @@ const server = http.createServer((req, res) => {
               }
               
           }
+         
           console.log(result);
           content = JSON.stringify(result);
           
@@ -111,9 +115,18 @@ const server = http.createServer((req, res) => {
                   }
               });
               
-              return;
+            return;
+            break;
+
+            // default:
+            //     res.setHeader('Content-Type','text/html');
+            //     res.statusCode = 404;
+            //     res.write(ERROR);
+            //     res.end();
+            // return;
               
-      }
+    }
+    
    
     if (req.method === 'POST') {
 
