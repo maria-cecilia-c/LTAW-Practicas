@@ -8,31 +8,36 @@ const FORMULARIO = fs.readFileSync('login.html', 'utf-8');
 const RESPUESTA = fs.readFileSync('gorrito1.html', 'utf-8'); //!VER 
 const MAIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
 const ERROR = fs.readFileSync('404.html');
+const url2 = require('url');
 //----------json
 
-DATAJSON =  fs.readFileSync('tienda.json', 'utf-8')
-DATAJSON = JSON.parse(DATAJSON)
-cargarTienda(DATAJSON)
+// Cargar JSON
+let DATAJSON = fs.readFileSync('tienda.json', 'utf-8');
+DATAJSON = JSON.parse(DATAJSON);
 
 // Array para almacenar los nombres de los productos
 let nombresProductos = [];
 
-// Iterar sobre el array de productos en DATAJSON
+// Iterar sobre el array de productos en PRODUCTOS_JSON
 for (let i = 0; i < DATAJSON.productos.length; i++) {
-    // Acceder al nombre del producto y agregarlo al array
     nombresProductos.push(DATAJSON.productos[i].nombre);
 }
 
 // Mostrar los nombres de los productos en la consola
 console.log(nombresProductos);
+
+// Obtener el array de productos
+let productos = nombresProductos;
+console.log(productos);
 //-------
 const server = http.createServer((req, res) => {
     const url = req.url === '/' ? '/tienda.html' : req.url;
     const filePath = path.join(__dirname, url);
     const extension = path.extname(filePath);
     const myURL = new URL(req.url, 'http://' + req.headers['host']);  
-    let recurso = myURL.pathname;
-    recurso = recurso.slice(1);
+    
+    const parsedUrl = url2.parse(req.url, true);
+    const recurso = parsedUrl.pathname === '/' ? '/tienda.html' : parsedUrl.pathname;
     
     
 
@@ -68,62 +73,6 @@ const server = http.createServer((req, res) => {
               content = MAIN;
              
             break;
-
-        case 'productos':
-          console.log("Peticion de Productos!")
-          content_type = "application/json";
-    
-          //-- Leer los parámetros
-          let param1 = myURL.searchParams.get('param1');
-    
-          param1 = param1.toUpperCase();
-    
-          console.log("  Param: " +  param1);
-    
-          let result = [];
-    
-          for (let prod of nombresProductos) {
-    
-              //-- Pasar a mayúsculas
-              prodU = prod.toUpperCase();
-    
-              //-- Si el producto comienza por lo indicado en el parametro
-              //-- meter este producto en el array de resultados
-              if (prodU.startsWith(param1)) {
-                  result.push(prod);
-              }
-              
-          }
-         
-          console.log(result);
-          content = JSON.stringify(result);
-          
-          break;
-    
-          case 'cliente.js':
-              console.log("recurso: " + recurso);
-              recurso = recurso;
-              fs.readFile(recurso, 'utf-8', (err,data) => {
-                  if (err) {
-                      console.log("Error: " + err)
-                      return;
-                  } else {
-                    console.log('Todo ok')
-                    res.setHeader('Content-Type', 'application/javascript');
-                    res.write(data);
-                    res.end();
-                  }
-              });
-              
-            return;
-            break;
-
-            // default:
-            //     res.setHeader('Content-Type','text/html');
-            //     res.statusCode = 404;
-            //     res.write(ERROR);
-            //     res.end();
-            // return;
               
     }
     
@@ -171,7 +120,39 @@ const server = http.createServer((req, res) => {
         }
         
     // Manejar las solicitudes GET para otros recursos
-    } else {
+    } else if (req.method === 'GET') {
+        if (parsedUrl.pathname === '/productos') {
+            console.log("Peticion de Productos!");
+            contentType = "application/json";
+            let param1 = parsedUrl.query.param1;
+            param1 = param1 ? param1.toUpperCase() : '';
+            console.log("  Param: " + param1);
+
+            let result = productos.filter(prod => prod.toUpperCase().startsWith(param1));
+            console.log(result);
+            res.setHeader('Content-Type', contentType);
+            res.end(JSON.stringify(result));
+            return;
+        }
+
+        fs.readFile(filePath, (err, content) => {
+            if (err) {
+                if (err.code === 'ENOENT') {
+                    fs.readFile('404.html', (err, content) => {
+                        res.writeHead(404, { 'Content-Type': 'text/html' });
+                        res.end(content, 'utf8');
+                    });
+                } else {
+                    res.writeHead(500);
+                    res.end('Error interno del servidor: ' + err.code);
+                }
+            } else {
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(content, 'utf8');
+            }
+        });
+    }
+    else {
         
         fs.readFile(filePath, (err, content) => {
             if (err) {
