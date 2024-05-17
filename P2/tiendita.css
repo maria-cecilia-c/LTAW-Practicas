@@ -16,7 +16,9 @@ body{
 .buscador{
   text-align: center;
 }
-
+.resultado{
+  text-align: center;
+}
 .title-cards{
     width: 100%;
     max-width: 1080px;
