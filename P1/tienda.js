@@ -37,7 +37,12 @@ const server = http.createServer((req, res) => {
     const fileList = returnFiles("./");
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(fileList, 'utf8');
-  } else {
+  }else if (req.url === "/mantenimiento") {
+    // Si la URL es "/ls", enviamos la lista de archivos como respuesta
+    const fileList = returnFiles("./");
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(fileList, 'utf8');
+  }  else {
     // Si la URL no es "/ls", intentamos leer el archivo normalmente
     fs.readFile(filePath, (err, content) => {
       if (err) {
@@ -83,4 +88,8 @@ function returnFiles(dir, space = '') {
   });
 
   return sendText.join(''); // Unimos todos los elementos del array en una sola cadena
+}
+
+function redirect(){
+  window.location.href = "/mantenimiento.html";
 }
