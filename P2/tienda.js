@@ -6,7 +6,6 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { cookie } = require('express/lib/response');
 const url = require('url');
 
 
@@ -17,10 +16,6 @@ const url = require('url');
 ===============================================
 */
 const PUERTO = 8081;
-const LOGIN = fs.readFileSync('login.html', 'utf-8');
-const MAIN = fs.readFileSync('tienda.html', 'utf-8'); //!VER 
-const ERROR = fs.readFileSync('404.html');
-
 
 
 /*
