@@ -7,8 +7,8 @@ const colors = require('colors');
 const { client } = require('websocket');
 const fs = require('fs');
 
-const data = fs.readFileSync('palabrasBetadas.json', 'utf8');
-const palabrasBetadas = JSON.parse(data).palabrasBetadas;
+const data = fs.readFileSync('palabrasVetadas.json', 'utf8');
+const palabrasVetadas = JSON.parse(data).palabrasVetadas;
 
 console.log("Arrancando electron...");
 
@@ -143,8 +143,8 @@ function comandosEspeciales(comand, socket, UsuariosConectados, username, color)
           break;
 
           default:
-            // Verificar si el comando contiene palabras betadas
-            for (let palabra of palabrasBetadas) {
+            // Verificar si el comando contiene palabras vetadas
+            for (let palabra of palabrasVetadas) {
                 if (comand.includes(palabra)) {
                     socket.emit("message", "Eso no está permitido");
                     return;
