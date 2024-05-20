@@ -1,19 +1,43 @@
 <!DOCTYPE html>
-  <html>
-  <head>
-      <meta charset='utf-8'>
-      <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-      <title>Page Title</title>
-      <link rel="stylesheet" type="text/css" href="tiendita.css">
-  </head>
-  <body>
-   <p>No tienes una cuenta creada o has ingresado algo mal</p>
-
-   <a href="login.html" class="boton-bonito">intentarlo de nuevo</a>
-   <a href="tienda.html" class="boton-bonito">Volver a la pagina principal</a>
-
-
-  </body>
-  </html>
-
-  
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error de Cuenta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .message-container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .message-container h1 {
+            font-size: 24px;
+            color: #d9534f;
+        }
+        .message-container p {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="message-container">
+        <h1>Error de Cuenta</h1>
+        <p>No tienes una cuenta creada o has ingresado algo mal.</p>
+        <a href="login.html" class="boton-bonito">intentarlo de nuevo</a>
+        <br>
+        <a href="tienda.html" class="boton-bonito">Volver a la pagina principal</a>
+    </div>
+</body>
+</html>

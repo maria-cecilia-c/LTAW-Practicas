@@ -8,14 +8,12 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-
-
 /*
 ===============================================
                constantes
 ===============================================
 */
-const PUERTO = 8081;
+const PUERTO = 9090;
 
 
 /*
@@ -74,6 +72,8 @@ const server = http.createServer((req, res) => {
             contentType = 'image/gif';
         break;
     }
+    // Ahora puedes utilizar la variable carrito aquí
+//console.log('Contenido del carrito:', carrito);
    
     if (req.method === 'POST' && parsedUrl.pathname === '/procesar') {
 
@@ -89,12 +89,13 @@ const server = http.createServer((req, res) => {
                         console.log('\n\x1b[33m%s\x1b[0m','Usuario confirmado',content['userName'])
                         // Array que contiene las cookies que se desean establecer
                         res.setHeader('Set-Cookie', ["userName=" + content['userName']]);
+                        res.setHeader('Set-Cookie', [`productoId=${productoId}; Path=/`]);
+
                         res.writeHead(302, {
                             'Location': '/tienda.html'
                             
                         });
                         console.log('\n\x1b[36m%s\x1b[0m','Usuario ingresado en la tienda correctamente');
-                        // Leer el archivo tienda.html
                        
                         fs.readFile("tienda.html", (err, data) => {
                             if (!err) {
@@ -114,8 +115,7 @@ const server = http.createServer((req, res) => {
                     console.log('error')
                 }
         });
-    }
-
+    } 
 
     if (req.method === 'GET') {
         if (parsedUrl.pathname === '/productos') {
@@ -299,3 +299,10 @@ function getCookies(req){
     }
   }
   
+// Función para establecer cookies en la respuesta HTTP
+function setCookie(res, name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    const cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/`;
+    res.setHeader('Set-Cookie', cookie);
+}
