@@ -89,7 +89,6 @@ const server = http.createServer((req, res) => {
                         console.log('\n\x1b[33m%s\x1b[0m','Usuario confirmado',content['userName'])
                         // Array que contiene las cookies que se desean establecer
                         res.setHeader('Set-Cookie', ["userName=" + content['userName']]);
-                        res.setHeader('Set-Cookie', [`productoId=${productoId}; Path=/`]);
 
                         res.writeHead(302, {
                             'Location': '/tienda.html'
