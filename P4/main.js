@@ -50,6 +50,7 @@ electron.app.on('ready', () => {
       // Parsear la URL para obtener el valor del parámetro username
       const urlParams = new URLSearchParams(new URL(url).search);
       const username = urlParams.get('username');
+      socket.emit('message', '¡Bienvenido al chat '+username+'!');
       console.log('Nombre de usuario:', username);
       clients.push(username)
       win.webContents.send('UsuariosConect' ,clients)
