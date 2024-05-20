@@ -4,10 +4,11 @@ const msg_entry = document.getElementById("msg_entry");
 
 //-- Crear un websocket. Se establece la conexión con el servidor
 const socket = io();
-
+let SOUND =  new Audio('happy-pop-2-185287.mp3');
 
 socket.on("message", (msg)=>{ // msg = nick:mensaje
   display.innerHTML += '<p style="color:black">' + msg + '</p>';
+  SOUND.play();
 });
 
 //-- Al apretar el botón se envía un mensaje al servidor

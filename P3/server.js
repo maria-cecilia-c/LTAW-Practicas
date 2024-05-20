@@ -16,7 +16,7 @@ const app = express();
 */
 const PUERTO = 9090;
 let UsuariosConectados = 0;
-let SOUND =  new Audio('happy-pop-2-185287.mp3');
+
 
 //-- Crear un servidor, asosiaco a la App de express
 const server = http.Server(app);
@@ -42,6 +42,8 @@ io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
   io.send('Nueva conexión');
+ 
+
   UsuariosConectados = UsuariosConectados + 1;
   // Obtener la URL actual del socket
   const url = socket.handshake.headers.referer;
@@ -50,6 +52,7 @@ io.on('connect', (socket) => {
   // Parsear la URL para obtener el valor del parámetro username
   const urlParams = new URLSearchParams(new URL(url).search);
   const username = urlParams.get('username');
+  socket.emit('message', '¡Bienvenido al chat '+username+'!');
   console.log('Nombre de usuario:', username);
 
   //aqui teno el color seleccionado por el usuario
@@ -68,7 +71,6 @@ io.on('connect', (socket) => {
    //el msg es solo mensaje, en la terminal
     console.log("Mensaje Recibido!"+ username.green +': ' + msg.blue);
     comandosEspeciales(msg,socket,UsuariosConectados, username, color)
-    SOUND.play();
   });
 
 });
