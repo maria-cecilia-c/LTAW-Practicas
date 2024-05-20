@@ -1,13 +1,22 @@
-//-- Cargar las dependencias
+/*
+===============================================
+               importaciones
+===============================================
+*/
 const socket = require('socket.io');
 const http = require('http');
 const express = require('express');
 const colors = require('colors');
+const app = express();
 
+/*
+===============================================
+               constantes y variables
+===============================================
+*/
 const PUERTO = 9090;
 let UsuariosConectados = 0;
-//-- Crear una nueva aplciacion web
-const app = express();
+let SOUND =  new Audio('happy-pop-2-185287.mp3');
 
 //-- Crear un servidor, asosiaco a la App de express
 const server = http.Server(app);
@@ -17,21 +26,18 @@ const io = socket(server);
 
 
 
-//-------- PUNTOS DE ENTRADA DE LA APLICACION WEB-----------------
-//-- Definir el punto de entrada principal de mi aplicación web
-// app.get('/', (req, res) => {
-//   res.send('Bienvenido a mi aplicación Web!!!' + '<button><a href="/index.html">lOGIN</a></button>');
-// });
+/*
+===============================================
+    PUNTOS DE ENTRADA DE LA APLICACION WEB
+===============================================
+*/
 
-//-- Esto es necesario para que el servidor le envíe al cliente la
-//-- biblioteca socket.io para el cliente
 app.use('/', express.static(__dirname +'/'));
-
-//-- El directorio publico contiene ficheros estáticos
 app.use(express.static('public'));
 
-//------------------- GESTION SOCKETS IO
-//-- Evento: Nueva conexion recibida
+//---------------------------------------------
+//------------------- GESTION SOCKETS IO-------
+//---------------------------------------------
 io.on('connect', (socket) => {
   
   console.log('** NUEVA CONEXIÓN **'.yellow);
@@ -62,6 +68,7 @@ io.on('connect', (socket) => {
    //el msg es solo mensaje, en la terminal
     console.log("Mensaje Recibido!"+ username.green +': ' + msg.blue);
     comandosEspeciales(msg,socket,UsuariosConectados, username, color)
+    SOUND.play();
   });
 
 });
@@ -72,8 +79,14 @@ server.listen(PUERTO);
 console.log("Escuchando en puerto: " + PUERTO);
 
 
-//-----------------FUNCIONES------------------------
 
+
+
+/*
+===============================================
+               funciones
+===============================================
+*/
 function comandosEspeciales(comand, socket, UsuariosConectados, username, color){ 
 
   switch(comand){
