@@ -3,8 +3,6 @@ const electron = require('electron');
 const socket = require('socket.io');
 const http = require('http');
 const express = require('express');
-const colors = require('colors');
-const { client } = require('websocket');
 const fs = require('fs');
 
 const data = fs.readFileSync('palabrasBetadas.json', 'utf8');
@@ -65,8 +63,6 @@ electron.app.on('ready', () => {
         UsuariosConectados = UsuariosConectados - 1;
         console.log('** CONEXIÓN TERMINADA **'.yellow);
         io.send('CONEXIÓN TERMINADA ');
-        //eliminar el que se va 
-        //TODO: MIRAR ESTO 
         clients = clients.filter(item => item != username)
         clients.push(username)
         win.webContents.send('UsuariosConect' ,clients)
